@@ -1,0 +1,25 @@
+ r←Test_03(debugFlag batchFlag);log;stopFlag;⎕TRAP
+⍝ Tests all sorts of "Run" functions.
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+ stopFlag←debugFlag
+
+ log←RunThese 1
+ →FailsIf(,⊂'Test_01')≢{⍵↑⍨¯1+⍵⍳' '}¨'Test_'{⍵/⍨⍺∘≡¨(⍴⍺)↑¨⍵}#.APLTreeUtils.dlb 1↓log
+
+ log←RunThese 1 2
+ →FailsIf'Test_01' 'Test_02'≢{⍵↑⍨¯1+⍵⍳' '}¨'Test_'{⍵/⍨⍺∘≡¨(⍴⍺)↑¨⍵}#.APLTreeUtils.dlb 1↓log
+
+ log←RunThese'foo' 1
+ →FailsIf(,⊂'Test_foo_01')≢{⍵↑⍨¯1+⍵⍳' '}¨'Test_'{⍵/⍨⍺∘≡¨(⍴⍺)↑¨⍵}#.APLTreeUtils.dlb 1↓log
+
+ log←RunThese'foo' 1 2
+ →FailsIf'Test_foo_01' 'Test_foo_02'≢{⍵↑⍨¯1+⍵⍳' '}¨'Test_'{⍵/⍨⍺∘≡¨(⍴⍺)↑¨⍵}#.APLTreeUtils.dlb 1↓log
+
+ log←RunThese'' 1
+ →FailsIf(,⊂'Test_01')≢{⍵↑⍨¯1+⍵⍳' '}¨'Test_'{⍵/⍨⍺∘≡¨(⍴⍺)↑¨⍵}#.APLTreeUtils.dlb 1↓log
+
+ log←RunThese'' 1 2
+ →FailsIf'Test_01' 'Test_02'≢{⍵↑⍨¯1+⍵⍳' '}¨'Test_'{⍵/⍨⍺∘≡¨(⍴⍺)↑¨⍵}#.APLTreeUtils.dlb 1↓log
+
+ r←∆OK

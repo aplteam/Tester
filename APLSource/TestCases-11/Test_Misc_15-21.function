@@ -1,0 +1,16 @@
+ r←Test_Misc_15(debugFlag batchFlag);stopFlag;Foo;ref;rc;log;⎕TRAP
+⍝ Exercise `Run` with an `Initial` function that returns a 1 (success).
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+ stopFlag←debugFlag
+
+ #.⎕SHADOW'Temp'
+ 'Temp'#.⎕NS''
+ #.Temp.⎕FX'r←Initial' 'r←1     ⍝ Meaning we initialized suucessfully'
+ #.Temp.⎕FX'r←Test_01 x' 'r←0'
+ ##.Tester.EstablishHelpersIn #.Temp
+ #.Temp.Tester←##.Tester
+ (rc log)←#.Temp.Run
+ →PassesIf 0=rc
+
+ r←∆OK

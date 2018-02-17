@@ -1,0 +1,16 @@
+ r←Test_Misc_16(debugFlag batchFlag);stopFlag;Foo;ref;rc;log;⎕TRAP
+⍝ Exercise `Run` with a scripted hosting namespace
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+ stopFlag←debugFlag
+
+ #.⎕SHADOW'Temp'
+ 'Temp'#.⎕NS''
+ #.Temp.⎕FIX':Namespace Scripted' '∇r←Test_01 x' 'r←0' '∇' ':EndNamespace'
+ ##.Tester.EstablishHelpersIn #.Temp.Scripted
+ #.Temp.Tester←##.Tester
+ (rc log)←#.Temp.Scripted.Run
+ →PassesIf 0=rc
+ →PassesIf~0∊⍴#.Temp.Scripted.ListHelpers 0
+
+ r←∆OK

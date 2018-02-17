@@ -1,0 +1,38 @@
+ r←Test_Misc_05(debugFlag batchFlag);rc;list;tmp;expected;stopFlag;⎕TRAP
+⍝ Exercise the "ListTestCases" method
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+ stopFlag←debugFlag
+
+⍝ Pre-conditions
+ tmp←⎕NS''
+ tmp.⎕FX'r←Test_001 (x y)' '   ⍝ This and that' 'r←0'
+ tmp.⎕FX'r←Test_002 (x y)' '⍝ that and this' 'r←0'
+ tmp.⎕FX'r←Test_003 (x y)' '   ⍝⍝ Something else' 'r←0'
+ tmp.⎕FX'r←Test_Grp1_001 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp1_002 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp1_003 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp2_001 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp2_002 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp3_AAA_001 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp3_AAA_002 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp3_BBB_001 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp4_CCC_001 (x y)' 'r←0'
+
+⍝ The tests
+ list←##.Tester.ListTestCases tmp
+ expected←'This and that' 'that and this' 'Something else' '' '' '' '' ''
+ expected←'Test_001' 'Test_002' 'Test_003' 'Test_Grp1_001' 'Test_Grp1_002' 'Test_Grp1_003' 'Test_Grp2_001' 'Test_Grp2_002',⍪expected
+ expected⍪←'Test_Grp3_AAA_001' 'Test_Grp3_AAA_002' 'Test_Grp3_BBB_001' 'Test_Grp4_CCC_001',[1.5]⊂''
+ →FailsIf list≢expected
+
+ list←'grp'##.Tester.ListTestCases tmp
+ expected←'Test_Grp1_001' 'Test_Grp1_002' 'Test_Grp1_003' 'Test_Grp2_001' 'Test_Grp2_002' 'Test_Grp3_AAA_001' 'Test_Grp3_AAA_002' 'Test_Grp3_BBB_001' 'Test_Grp4_CCC_001',[1.5]⊂''
+ →FailsIf list≢expected
+
+ list←'grp2'##.Tester.ListTestCases tmp
+ expected←'' ''
+ expected←'Test_Grp2_001' 'Test_Grp2_002',⍪expected
+ →FailsIf list≢expected
+
+ r←∆OK

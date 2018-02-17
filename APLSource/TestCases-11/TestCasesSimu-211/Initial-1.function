@@ -1,0 +1,12 @@
+ Initial parms
+⍝ Prints a warning to the session in case it is not running in batch mode
+ ##.##.Tester.EstablishHelpersIn ⍬
+ :If ~parms.batchFlag
+     ⎕←(⎕PW-1)⍴'-'
+     ⎕←'Note that this is running in #.TestCases.TestCasesSimu, simulating stuff.'
+     ⎕←'Check the first line in order to find out what is actually tested.'
+     ⎕←'Only when it says "Tests started at ... on #.TestCases" has the'
+     ⎕←'test suite really been finished.'
+     ⎕←'Now press <Enter> in order to continue'
+     ⍞
+ :EndIf

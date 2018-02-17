@@ -1,0 +1,10 @@
+ {r}←Initial
+ r←1
+ #.FilesAndDirs.PolishCurrentDir
+ ##.Tester.EstablishHelpersIn ⍬
+ #.Tester←##.Tester
+ :If 1<⍴⎕XSI
+ :AndIf 'Run'≡1↓↑¯1↑⎕NPARTS↑¯1↑⎕XSI
+     'Sorry, this test suite cannot be executed with "Run" - choose "RunDebug" instead'
+     r←0
+ :EndIf

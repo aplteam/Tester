@@ -1,0 +1,17 @@
+ r←Test_Other_05(debugFlag batchFlag);ref;stopFlag;⎕TRAP
+⍝ Exercise "GoToTidyUp"
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+ stopFlag←debugFlag
+
+ ref←⎕NS''
+ ##.Tester.EstablishHelpersIn ref
+ ref.debugFlag←0
+ ref.∆TidyUp←∆TidyUp
+ →FailsIf ⍬≢ref.GoToTidyUp 0
+ →ref.GoToTidyUp 1
+ :Return
+
+∆TidyUp: ⍝ Clean up after this label
+
+ r←∆OK

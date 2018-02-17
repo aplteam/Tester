@@ -1,0 +1,36 @@
+ r←Test_Other_04(debugFlag batchFlag);ref;stopFlag;⎕TRAP
+⍝ Exercise "FailsIf" and "PassesIf"
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+ stopFlag←debugFlag
+
+ ref←⎕NS''
+ ##.Tester.EstablishHelpersIn ref
+ ref.stopFlag←0
+ →FailsIf~0∊⍴ref.PassesIf 1
+ →FailsIf 0≢ref.PassesIf 0
+ →FailsIf 0≢ref.FailsIf 1
+ →FailsIf~0∊⍴ref.FailsIf 0
+
+ ref.stopFlag←1
+ →FailsIf~0∊⍴ref.PassesIf 1
+ :Trap 999
+     {}ref.PassesIf 0
+     →FailsIf 1
+ :Else
+     →FailsIf'ERROR 999'≢⎕IO⊃⎕DM
+ :EndTrap
+ →FailsIf~0∊⍴ref.FailsIf 0
+ :Trap 999
+     {}ref.FailsIf 1
+     →FailsIf 1
+ :Else
+     →FailsIf'ERROR 999'≢⎕IO⊃⎕DM
+ :EndTrap
+
+ ref.stopFlag←0
+ →∆TidyUp/⍨0=ref.FailsIf 1
+ →FailsIf 1
+
+∆TidyUp: ⍝ pro forma
+ r←∆OK

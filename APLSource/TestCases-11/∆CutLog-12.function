@@ -1,0 +1,7 @@
+ log←∆CutLog log
+ log←(↑#.APLTreeUtils.Where∨/¨'--- Tests started at '∘⍷¨log)↓log
+ log←(¯1+↑#.APLTreeUtils.Where∨/¨'Time of execution recorded'∘⍷¨log)↑log
+ log←∆DropSeparatorLines log
+ log~←⊂'Inifile instance "INI" deleted'
+ log~¨←' '
+⍝Done

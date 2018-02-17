@@ -1,0 +1,31 @@
+ r←Test_Other_03(debugFlag batchFlag);log;local;list;⎕IO;⎕ML;qio;qml;stopFlag;⎕TRAP
+⍝ Exercise EstablishHelpersIn
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+ stopFlag←debugFlag
+
+ :For qio :In 0 1
+     :For qml :In 0 1 2 3
+         ⎕IO←qio ⋄ ⎕ML←qml
+         local←⎕NS''
+         ##.Tester.EstablishHelpersIn local
+         list←local.ListHelpers 0
+         →FailsIf 0∊{⍬⍴⍵}¨local.⎕NC¨list[;⎕IO]
+         →FailsIf 1≠''⍴⍴local.L''
+         →FailsIf~0∊⍴local.L'DoesNotExist'
+         →FailsIf~0∊⍴1 2 3 local.L'DoesNotExist'
+         →FailsIf~0∊⍴1 2 3 local.L''
+
+         →FailsIf~0∊⍴local.G
+         local.⎕FX(⊂'R←Test_Grp1_01(stopFlag batchFlag);⎕TRAP'),1↓⎕NR'local.Test_0000'
+         local.⎕FX(⊂'R←Test_Grp1_02(stopFlag batchFlag);⎕TRAP'),1↓⎕NR'local.Test_0000'
+         local.⎕FX(⊂'R←Test_Grp2_01(stopFlag batchFlag);⎕TRAP'),1↓⎕NR'local.Test_0000'
+         →FailsIf 2≠⍬⍴⍴local.L'Grp1'
+         →FailsIf 1≠⍬⍴⍴1 local.L'Grp1'
+         →FailsIf 1≠⍬⍴⍴local.L'grp2'
+         →FailsIf 0≠⍬⍴⍴local.L'grp3'
+
+     :EndFor
+ :EndFor
+
+ r←∆OK

@@ -1,0 +1,28 @@
+ r←Test_Misc_18(debugFlag batchFlag);rc;list;tmp;expected;stopFlag;⎕TRAP
+⍝ Exercise "G" and "L"
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+ stopFlag←debugFlag
+
+⍝ Pre-conditions
+ tmp←⎕NS''
+ tmp.⎕FX'r←Test_001 (x y)' '   ⍝ This and that' 'r←0'
+ tmp.⎕FX'r←Test_002 (x y)' '⍝ that and this' 'r←0'
+ tmp.⎕FX'r←Test_003 (x y)' '   ⍝⍝ Something else' 'r←0'
+ tmp.⎕FX'r←Test_Grp1_001 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp1_002 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp1_003 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp2_001 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp2_002 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp3_AAA_001 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp3_AAA_002 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp3_BBB_001 (x y)' 'r←0'
+ tmp.⎕FX'r←Test_Grp4_CCC_001 (x y)' 'r←0'
+ ##.Tester.EstablishHelpersIn tmp
+
+⍝ The tests
+ →PassesIf(↑⍴tmp.L'')=↑⍴'T'tmp.⎕NL 3
+ →PassesIf(+/'Test_Grp'{((⍴⍺)↑[2]⍵)∧.=⍺}'T'tmp.⎕NL 3)=↑⍴tmp.L'grp'
+ →PassesIf 5=1↑⍴tmp.G
+
+ r←∆OK

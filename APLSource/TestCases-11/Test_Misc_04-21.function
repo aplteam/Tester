@@ -1,0 +1,28 @@
+ r←Test_Misc_04(debugFlag batchFlag);log;rc;expected;stopFlag
+⍝ Exercise the "RunTheseIn" method
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+ stopFlag←debugFlag
+
+ log←2 3 ##.Tester.RunTheseIn ##.TestCases.TestCasesSimu
+ expected←'  1 test case executed' '  0 test cases failed' '  0 test cases broken'
+ →FailsIf expected≢¯3↑¯4↓log
+
+ :Trap 1001
+     log←¯2 ##.Tester.RunTheseIn TestCasesSimu
+     →FailsIf 1
+ :EndTrap
+
+ :Trap 1001
+     log←0 ##.Tester.RunTheseIn TestCasesSimu
+     →FailsIf 1
+ :EndTrap
+
+ ⎕TRAP←(1001 'E' '→⎕lc')(0 'S')
+ log←'Grp1' 0 ##.Tester.RunTheseIn TestCasesSimu
+ →FailsIf 3 0 0≢∆GetTotals log
+
+ log←'Test_Grp1' 0 ##.Tester.RunTheseIn TestCasesSimu
+ →FailsIf 3 0 0≢∆GetTotals log
+
+ r←∆OK

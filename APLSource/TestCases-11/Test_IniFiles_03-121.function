@@ -1,0 +1,39 @@
+ r←Test_IniFiles_03(stopFlag batchFlag);log;stopFlag;⎕TRAP;rc;ini;body;report;iniFilename
+⍝ Exercise test case with a two INI files: "testcases.ini" & "testcases_{computername}.ini"
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+
+ ini←'[Config]' 'foo = 1' 'goo = ''Hello'''
+ iniFilename←'Testcases.ini'
+ #.APLTreeUtils.WriteUtf8File iniFilename ini
+
+ ini←'[Config]' 'foo = 2' 'too = ''Universe'''
+ iniFilename←'Testcases_',#.WinSys.GetComputerName,'.ini'
+ #.APLTreeUtils.WriteUtf8File iniFilename ini
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ ##.Tester.EstablishHelpersIn #.TEMP
+ #.TEMP.⎕EX'Test_000'
+ body←⊂'r←Test_03(debugFlag batchFlag);⎕TRAP'
+ body,←⊂'⎕TRAP←(999 ''C'' ''. ⍝ Deliberate error'')(0 ''N'')'
+ body,←⊂'r←∆Failed'
+ body,←⊂'→FailsIf 2≠INI.⎕NC''foo'''
+ body,←⊂'→FailsIf 2≠INI.⎕NC''goo'''
+ body,←⊂'→FailsIf 2≠INI.⎕NC''too'''
+ body,←⊂'→FailsIf INI.foo≢2'
+ body,←⊂'→FailsIf INI.goo≢''Hello'''
+ body,←⊂'→FailsIf INI.too≢''Universe'''
+ body,←⊂'→FailsIf 3≠1↑⍴INI.List'
+ body,←⊂'r←∆OK'
+ #.TEMP.⎕FX body
+ report←∊#.TEMP.RunDebug 0
+ →GoToTidyUp 1≠+/'INI file(s) "Testcases.ini,testcases_'⍷report
+ →GoToTidyUp 1≠+/'1 test case executed'⍷report
+ →GoToTidyUp 1≠+/'0 test cases failed'⍷report
+ →GoToTidyUp 1≠+/'0 test cases broken'⍷report
+
+ r←∆OK
+
+∆TidyUp:
+ #.FilesAndDirs iniFilename

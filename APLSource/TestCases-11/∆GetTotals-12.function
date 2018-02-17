@@ -1,0 +1,6 @@
+ r←∆GetTotals log;buff
+⍝ Returns the totals from the log report: how many test cases got executed, how many failed/borken/inactive/...
+ buff←1↓{⍵⌿⍨~∧\~∧/⍵∊' -'}⊃log
+ buff←{⍵↑⍨+/∧\~∨/'Time of exec'⍷⍵}buff
+ r←{↑↑(//)⎕VFI ⍵↑⍨⍵⍳' '}¨#.APLTreeUtils.dlb↓buff
+⍝Done

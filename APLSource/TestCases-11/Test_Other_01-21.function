@@ -1,0 +1,10 @@
+ r←Test_Other_01(debugFlag batchFlag);log;stopFlag;⎕TRAP
+⍝ Exercise the grouping mechanism without any specific numbers (not even empty ones)
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+ stopFlag←debugFlag
+
+ log←'Grouping'##.Tester.RunTheseIn TestCasesSimu
+ →PassesIf 3=+/⊃∨/∨/¨'grouping [1]' 'grouping [2]' 'grouping [3]'⍷¨⊂⊃log
+
+ r←∆OK

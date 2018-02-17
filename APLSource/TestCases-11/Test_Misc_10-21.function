@@ -1,0 +1,34 @@
+ r←Test_Misc_10(debugFlag batchFlag);log;stopFlag;T;buff;shouldBe;is;⎕TRAP;rc
+⍝ Exercise the different `type`s of results a test function might return.
+⍝  ¯1 = Not a batch test function
+⍝  ¯2 = Inactive
+⍝ ¯10 = Runs under Windows only
+⍝ ¯11 = Runs under Linux only
+⍝ ¯12 = Runs under Mac OS only
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+ stopFlag←debugFlag
+
+ #.⎕SHADOW'TEMP'
+ T←⍎'TEMP'#.⎕NS''
+ T.⎕FX'r←Test_01 y;⎕TRAP' 'r←0'       ⍝ Okay
+ T.⎕FX'r←Test_02 y;⎕TRAP' '.'         ⍝ Broken
+ T.⎕FX'r←Test_03 y;⎕TRAP' 'r←1'       ⍝ Failed
+ T.⎕FX'r←Test_04 y;⎕TRAP' 'r←¯1'      ⍝  ¯1 = Not a batch test function
+ T.⎕FX'r←Test_05 y;⎕TRAP' 'r←¯2'      ⍝  ¯2 = Inactive
+ T.⎕FX'r←Test_06 y;⎕TRAP' 'r←¯10'     ⍝ ¯10 = Runs under Windows only
+ T.⎕FX'r←Test_07 y;⎕TRAP' 'r←¯11'     ⍝ ¯11 = Runs under Linux only
+ T.⎕FX'r←Test_08 y;⎕TRAP' 'r←¯20'     ⍝ ¯20 = Runs under Linux or Mac only
+ T.⎕FX'r←Test_09 y;⎕TRAP' 'r←¯21'     ⍝ ¯21 = Runs under Linux or Windows only
+ T.⎕FX'r←Test_10 y;⎕TRAP' 'r←¯22'     ⍝ ¯22 = Runs under Mac or Windows only
+
+ ##.Tester.EstablishHelpersIn T
+ T.Tester←##.Tester
+ (rc buff)←T.Run
+ →PassesIf 1=rc
+ buff↓⍨←1++/∧\~'-----'∘{⍺≡(⍴⍺)↑⍵}¨buff
+ shouldBe←1⌈{⍵↑⍵}10
+ is←∊{(//)⎕VFI↑' '#.APLTreeUtils.Split ⍵}¨#.APLTreeUtils.dlb buff
+ →PassesIf shouldBe≡is
+
+ r←∆OK

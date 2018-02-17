@@ -1,0 +1,22 @@
+ r←Test_Misc_17(debugFlag batchFlag);stopFlag;Foo;ref;rc;log;⎕TRAP;buff
+⍝ Exercise `FindSpecialString`.
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+ stopFlag←debugFlag
+
+ #.⎕SHADOW'Temp'
+ 'Temp'#.⎕NS''
+ #.Temp.⎕FX'r←Test_01 x'('r←0 ','⍝ CHECK ⍝'~' ')    ⍝ To avoid this test function to be found
+ #.Temp.⎕FX'r←Test_02 x'('r←1 ','⍝ TODO ⍝'~' ')     ⍝ To avoid this test function to be found
+ #.Temp.⎕FX'r←Test_03 x' 'r←2 '
+
+ buff←#.Temp FindSpecialString'⍝ CHECK ⍝'~' '       ⍝ To avoid this test function to be found
+ →PassesIf(1 2⍴'#.Temp.Test_01' 1)≡buff
+
+ buff←#.Temp FindSpecialString'⍝ TODO ⍝'~' '        ⍝ To avoid this test function to be found
+ →PassesIf(1 2⍴'#.Temp.Test_02' 1)≡buff
+
+ buff←#.Temp FindSpecialString'⍝ELSE⍝'
+ →PassesIf 0∊⍴buff
+
+ r←∆OK

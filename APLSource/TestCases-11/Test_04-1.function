@@ -1,0 +1,109 @@
+ r←Test_04(debugFlag batchFlag);log;stopFlag;⎕TRAP
+⍝ Test the `RenameTestFns`
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ r←∆Failed
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ #.TEMP.⎕FX⊃'r←Foo dummy' 'r←''Hello, world'''
+ {}'  #.TEMP.Foo'RenameTestFnsTo'#.TEMP.Foo2'
+ →PassesIf 0=#.TEMP.⎕NC'Foo'
+ →PassesIf 3=#.TEMP.⎕NC'Foo2'
+ →PassesIf'Hello, world'≡#.TEMP.Foo2 ⍬
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ #.TEMP.⎕FX⊃'r←{x}Foo dummy' 'r←''Hello, world'''
+ {}'  #.TEMP.Foo'RenameTestFnsTo'#.TEMP.Foo2'
+ →PassesIf 0=#.TEMP.⎕NC'Foo'
+ →PassesIf 3=#.TEMP.⎕NC'Foo2'
+ →PassesIf'Hello, world'≡#.TEMP.Foo2 ⍬
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ #.TEMP.⎕FX⊃'r←x Foo dummy' 'r←''Hello, world'''
+ {}'  #.TEMP.Foo'RenameTestFnsTo'#.TEMP.Foo2'
+ →PassesIf 0=#.TEMP.⎕NC'Foo'
+ →PassesIf 3=#.TEMP.⎕NC'Foo2'
+ →PassesIf'Hello, world'≡⍬ #.TEMP.Foo2 ⍬
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ #.TEMP.⎕FX⊃'r←Foo' 'r←''Hello, world'''
+ {}'  #.TEMP.Foo'RenameTestFnsTo'#.TEMP.Foo2'
+ →PassesIf 0=#.TEMP.⎕NC'Foo'
+ →PassesIf 3=#.TEMP.⎕NC'Foo2'
+ →PassesIf'Hello, world'≡#.TEMP.Foo2
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ #.TEMP.⎕FX⊃'r←Foo(x y)' 'r←''Hello, world'''
+ {}'  #.TEMP.Foo'RenameTestFnsTo'#.TEMP.Foo2'
+ →PassesIf 0=#.TEMP.⎕NC'Foo'
+ →PassesIf 3=#.TEMP.⎕NC'Foo2'
+ →PassesIf'Hello, world'≡#.TEMP.Foo2 ⍬ ⍬
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ #.TEMP.⎕FX⊃'r←{xyz} Foo(x y)' 'r←''Hello, world'''
+ {}'#.TEMP.Foo'RenameTestFnsTo'#.TEMP.Foo2'
+ →PassesIf 0=#.TEMP.⎕NC'Foo'
+ →PassesIf 3=#.TEMP.⎕NC'Foo2'
+ →PassesIf'Hello, world'≡#.TEMP.Foo2 ⍬ ⍬
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ #.TEMP.⎕FX⊃'r←xyz Foo(x y)' 'r←''Hello, world'''
+ {}'#.TEMP.Foo'RenameTestFnsTo'#.TEMP.Foo2'
+ →PassesIf 0=#.TEMP.⎕NC'Foo'
+ →PassesIf 3=#.TEMP.⎕NC'Foo2'
+ →PassesIf'Hello, world'≡⍬ #.TEMP.Foo2 ⍬ ⍬
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ #.TEMP.Foo←{⍵}
+ {}'#.TEMP.Foo'RenameTestFnsTo'#.TEMP.Foo2'
+ →PassesIf 0=#.TEMP.⎕NC'Foo'
+ →PassesIf 3=#.TEMP.⎕NC'Foo2'
+ →PassesIf ⍬≡#.TEMP.Foo2 ⍬
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ #.TEMP.⎕FX'Foo←{' '''Hello, world''' '}'
+ {}'#.TEMP.Foo'RenameTestFnsTo'#.TEMP.Foo2'
+ →PassesIf 0=#.TEMP.⎕NC'Foo'
+ →PassesIf 3=#.TEMP.⎕NC'Foo2'
+ →PassesIf'Hello, world'≡#.TEMP.Foo2 ⍬
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ #.TEMP.⎕FX⊃'r←(fns Foo) dummy' 'r←''Hello, world'''
+ :Trap 0
+     {}'#.TEMP.Foo'RenameTestFnsTo'#.TEMP.Foo2'
+     →FailsIf 1
+ :Else
+     →PassesIf'Function to be renamed not found'{⍺≡(⍴⍺)↑⍵}1⊃⎕DM
+ :EndTrap
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ #.TEMP.⎕FX⊃'r←Foo dummy' 'r←''Hello, world'''
+ #.TEMP.Foo2←{⍵}
+ :Trap 0
+     {}'#.TEMP.Foo'RenameTestFnsTo'#.TEMP.Foo2'
+     →FailsIf 1
+ :Else
+     →PassesIf'New name is already used'{⍺≡(⍴⍺)↑⍵}1⊃⎕DM
+ :EndTrap
+
+ #.⎕SHADOW'TEMP'
+ 'TEMP'#.⎕NS''
+ #.TEMP.⎕FX⊃'r←Foo dummy' 'r←''Hello, world'''
+ :Trap 0
+     {}'#.TEMP.Foo'RenameTestFnsTo'#.TEMP.12Foo2'
+     →FailsIf 1
+ :Else
+     →PassesIf'New name is invalid'{⍺≡(⍴⍺)↑⍵}1⊃⎕DM
+ :EndTrap
+
+ r←∆OK

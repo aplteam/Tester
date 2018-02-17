@@ -1,0 +1,5 @@
+ r←Test_021(debugFlag batchFlag)
+⍝ Broken
+ r←∆Failed
+ .  ⍝ Now enter "→0" when running the #.Tester test cases
+ r←∆OK
