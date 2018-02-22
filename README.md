@@ -1,4 +1,8 @@
-# Tester
+# Test framework for Unit tests in Dyalog APL
+
+
+`Tester` is a member of the APLTree library. The library is a collection of classes etc. that aim to support the Dyalog APL programmer. Search GitHub for "apltree" and you will find solutions to many every-day problems Dyalog APL programmers might have to solve.
+
 
 ## Overview 
 
@@ -6,11 +10,14 @@ The purpose of this class is to provide a framework for testing all the projects
 
 You might find the framework flexible enough to suit your own needs when it comes to implementing tests, even independently from the APLTree project.
 
+
 ## Details 
+
 
 ### Terminology
 
 Note that test cases causing a crash are considered "broken". Test cases that do not return the expected result are considered "failing".
+
 
 ### Assumptions and preconditions
 
@@ -52,9 +59,11 @@ Note that test cases causing a crash are considered "broken". Test cases that do
 
 These niladic functions are made available as Helpers - see there.
 
+
 ## Work flow
 
 No matter which of the `Run*` functions (`Run`, `RunBatchTests`, `RunDebug`, `RunThese`) you are going to call, the workflow is always the same:
+
 
 ### INI files
 
@@ -68,6 +77,7 @@ Note that if one of the two INI files exists there will be a flat namespace `{yo
        'world'≡#.Foo.INI.hello
 1
 ```
+
 
 ### Initialisation
 
@@ -85,17 +95,21 @@ It might  be a good idea to call a function tidying up in line 1, just in case a
 
 Another thing to mention is that `Initial` is not a bad place to establish the Helpers - see there for details.
 
+
 ### Finally: running the test cases
 
 Now the test cases are executed one by one.
+
 
 ### Tidying up
 
 After the last test case was executed the `Run*` function checks whether there is a function `Cleanup` in the namespace hosting your test cases. If that's the case then this function is executed. Such a function must be a niladic, no-result returning function.
 
+
 ### INI file again
 
 Finally the namespace "INI" holding variables populated from your INI file(s) is deleted.
+
 
 ## Helpers
 
@@ -124,9 +138,11 @@ One of the helpers is the method `ListHelpers` which returns a table with all na
 
 The helpers fall into four groups:
 
+
 ### Running test cases
 
 `Run`, `RunDebug`, `RunThese`, `RunBatchTest` and `RunBatchTestsInDebugMode` are running all or selected test cases with or without error trapping. They are shortcuts for calling the methods in `Tester`.
+
 
 ### Flow control
 
@@ -150,17 +166,21 @@ Note that `GoToTidyUp` allow you with a statement like
 
 to jump to a label `∆TidyUp`. This is useful in case a test case needs to do some cleaning up.
 
+
 ### Test function template
 
 In case the namespace has no test functions in it (yet) the `EstablishHelpersIn` function also creates a test function template named `Test_000`. ('''Not''' when the hosting namespace is scripted!)
+
 
 ### "Constants"
 
 These niladic functions behave like constants and are useful for assigning explicit results in test functions.
 
+
 ### Misc
 
 `E`, `G` and `L` allow the user to edit all test functions and to list test groups, if any.
+
 
 ### Examples
 
@@ -170,7 +190,7 @@ The `Run*` functions are discussed later.
 
 The most important helper functions are probably `G` and `L`: with a large number of test functions it's the only reasonable way to gather information: `G` lists all groups and `L` all test functions.
 
-Since version 1.8.0 `L` requires a right argument (empty or group name) and an optional left argument (test case numbers).
+Since version 1.8.0 `L` requires a right argument (empty or group name) and accepts an optional left argument (test case numbers).
 
 Examples from the `Fire` development workspace:
 
@@ -200,6 +220,7 @@ Test_List_007             Search for "Hello" with a ref and an unnamed namespace
 
 Note that you don't need to specify more characters than needed to actually identify a group.
 
+
 ### RunThese
 
 A particularly helpful method while developing/enhancing stuff is `RunThese`. The function allows you to run just selected test functions rather than a whole test suite but at the same time process any INI files and execute `Initial` and `Cleanup` if they exist.
@@ -218,6 +239,7 @@ A particularly helpful method while developing/enhancing stuff is `RunThese`. Th
       RunThese 0      ⍝ Run all test cases but stop just before the execution.
 ```
 
+
 ## Best Practices
 
 * Try to keep your test cases simple and test just one thing at a time, for example just one method at a time. If a method is complex you will be better off creating a group (use the method name as group name) with several simple test cases rather than one complex test case.
@@ -230,9 +252,11 @@ A particularly helpful method while developing/enhancing stuff is `RunThese`. Th
 
 * Notice that the DRY principle (don't repeat yourself) can and should be ignored in test cases: any test case should read from top to bottom like an independent story.
 
+
 ## Tester's methods
 
 Note that for convenience there are a couple of Helpers which are shortcuts for some of the methods listed here - see there.
+
 
 ### GetAllTestFns
 
@@ -241,6 +265,7 @@ r←GetAllTestFns refToTestNamespace
 ```
 Returns the names of all test functions found in namespace "refToTestNamespace".
 
+
 ### ListTestCases
 
 ```
@@ -248,6 +273,7 @@ r←ListTestCases refToTestNamespace;list
 ```
 
 Returns the name and the comment expected in line 1 of all test cases found in "refToTestNamespace".
+
 
 ###  Run
 
@@ -258,6 +284,7 @@ Returns the name and the comment expected in line 1 of all test cases found in "
 Runs all test cases in "refToTestNamespace" with error trapping. Broken as well as failing tests are reported in the session as such but they don't stop the program from carrying on.
 
 Sets a global variable `TestCasesExecutedAt` in the namespace hosting the test cases.
+
 
 ### RunBatchTests
 
@@ -271,6 +298,7 @@ This method can run in a runtime as well as in an automated test environment.
 
 Sets a global variable `TestCasesExecutedAt` in the namespace hosting the test cases.
 
+
 ### RunDebug
 
 ```
@@ -282,6 +310,7 @@ Runs all test cases in "refToTestNamespace" '''without''' error trapping.  If a 
 This will work only if you use a particular strategy when checking results in a test case.
 
 Sets a global variable `TestCasesExecutedAt` in the namespace hosting the test cases.
+
 
 ### RunTheseIn
 
@@ -296,9 +325,11 @@ If a "groupname" was specified then "testCaseNos" might be empty. Then all test 
 
 Sets a global variable `TestCasesExecutedAt` in the namespace hosting the test cases.
 
+
 ### Version
 
 Returns version (x.y.z) and date (yyyy-mm-dd) of the class `#.Tester`
+
 
 ## Examples
 
