@@ -31,7 +31,7 @@ Note that test cases causing a crash are considered "broken". Test cases that do
 
 1. It is assumed that you have three different scenarios when you want to run test cases with a different behaviour:
     
-   * Run with error trapping and return a log (vector of text vectors) reporting details. Run this before checking your code into a Code Management System like !SubVersion, !GitHub or [[acre]]. See `Tester.Run` for details.
+   * Run with error trapping and return a log (vector of text vectors) reporting details. Run this before checking your code into a Code Management System like SubVersion, GitHub or [acre](https://github.com/the-carlisle-group/Acre-Desktop). See `Tester.Run` for details.
    
    * Run without error trapping. Use this for investigating why test cases crash or fail. See `Tester.RunDebug` for details.
    
