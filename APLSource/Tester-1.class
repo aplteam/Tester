@@ -164,11 +164,13 @@
 
     ∇ r←Version
       :Access Public shared
-      r←(Last⍕⎕THIS)'3.9.0' '2018-02-16'
+      r←(Last⍕⎕THIS)'3.9.1' '2018-04-20'
     ∇
 
     ∇ History
       :Access Public shared
+      ⍝ * 3.9.1
+      ⍝   * Bug fix: `RenameTestFnsTo` did not tell acre about the name change.
       ⍝ * 3.9.0
       ⍝   * Converted from the APL wiki to GitHub.
       ⍝ * 3.8.0
@@ -917,7 +919,7 @@
                       :If ⎕NEXISTS delFilanme
                           ⎕NDELETE delFilanme
                       :EndIf
-                      :If 0∊⍴rc←'putchange'⎕SE.acre.run,newName
+                      :If 0∊⍴rc←⎕SE.UCMD'acre.SetChanged ',newName
                           ⎕←'acre was told about the introduction of a new test fns but it was not interested.'
                       :EndIf
                       :If 0∊⍴rc←⎕SE.UCMD'acre.Erase ',oldName
@@ -994,7 +996,7 @@
           :Access Public Shared
 ⍝ Returns a list of **all** helper functions.
 ⍝ These are defined as all private functions of the sub class `Helpers`.
-
+         
 ⍝ ↓↓↓↓ Circumvention of Dyalog bug <01154> (⎕nl 3 does NOT list the private functions of `Helpers`!)
           r←(ListHelpers 1)[;⎕IO]
         ∇
@@ -1003,18 +1005,18 @@
 ⍝ Model for a test function.
           ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
           R←∆Failed
-
+         
 ⍝ Preconditions...
 ⍝ ...
-
+         
           →PassesIf 1≡1
           →FailsIf 1≢1
           →GoToTidyUp 1≢1
           R←∆OK
-
+         
          ∆TidyUp: ⍝ Clean up after this label
           ⍝ ...
-
+         
         ∇
 
         ∇ r←∆OK
