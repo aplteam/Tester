@@ -164,11 +164,13 @@
 
     ∇ r←Version
       :Access Public shared
-      r←(Last⍕⎕THIS)'3.9.1' '2018-04-20'
+      r←(Last⍕⎕THIS)'3.9.2.4' '2018-07-04'
     ∇
 
     ∇ History
       :Access Public shared
+      ⍝ * 3.9.2
+      ⍝   * Bug fix: `L` should take ⎕PW into account but did not.
       ⍝ * 3.9.1
       ⍝   * Bug fix: `RenameTestFnsTo` did not tell acre about the name change.
       ⍝ * 3.9.0
@@ -759,11 +761,12 @@
           {(0∊⍴⍵): ⋄ ⎕ML←1 ⋄ ⎕ED↑⍵}&↓'Test_'{⍵⌿⍨⍺∧.=⍨(⍴,⍺)↑[1+⎕IO]⍵}list
         ∇
 
-        ∇ r←{numbers}L group;A
+        ∇ r←{numbers}L group;A;r2;⎕IO;⎕ML;b
 ⍝ Prints a list with all test cases and the first comment line to the session.
 ⍝ If "group" is not empty then it will print only that group (case independent).
 ⍝ May or may not start with "Test_"
 ⍝ If "numbers" is defined only those number are printed.
+          ⎕IO←1 ⋄ ⎕ML←1
           :If 9=#.⎕NC'APLTreeUtils'
               A←#.APLTreeUtils
           :ElseIf 9=⎕NC'APLTreeUtils'
@@ -778,19 +781,25 @@
               'Missing: APLTreeUtils'⎕SIGNAL 6
           :EndIf
           numbers←{(0<⎕NC ⍵):⍎⍵ ⋄ ⍬}'numbers'
-          r←↓'Test_'{⍵⌿⍨((⍴⍺)↑[1+⎕IO]⍵)∧.=⍺}'T'⎕NL 3
+          r2←↓'Test_'{⍵⌿⍨((⍴⍺)↑[2]⍵)∧.=⍺}'T'⎕NL 3
           :If ~0∊⍴group
               group←A.Lowercase'test_'{((⍺≢(⍴⍺)↑⍵)/⍺),⍵}group
-              r←(({⎕ML←1 ⋄ ↑⍵}A.Lowercase(⍴group)↑¨r)∧.=group)⌿r
+              r2←(({⎕ML←1 ⋄ ↑⍵}A.Lowercase(⍴group)↑¨r2)∧.=group)⌿r2
           :EndIf
-          :If 0∊⍴r
+          :If 0∊⍴r2
               r←0 1⍴''
           :Else
               :If ~0∊⍴numbers
-                  r←(({⍎⍵↑⍨-(-⎕IO)+'_'⍳⍨⌽⍵}¨r)∊numbers)⌿r
+                  r2←(({⍎⍵↑⍨-(-1)+'_'⍳⍨⌽⍵}¨r2)∊numbers)⌿r2
               :EndIf
-              r←r,⍪{{⍵↓⍨+/∧\' '=⍵}{⎕IO←1 ⋄ ⍵↓⍨⍵⍳'⍝'}{⎕ML←3 ⋄ ∊⍵}1↑1↓⎕NR ⍵}¨r
-              r←r[⍋{⎕ML←1 ⋄ ↑⍵}A.Lowercase r[;⎕IO];]
+              r2←r2,⍪{{⍵↓⍨+/∧\' '=⍵}{⍵↓⍨⍵⍳'⍝'}{⎕ML←3 ⋄ ∊⍵}1↑1↓⎕NR ⍵}¨r2
+              r2←r2[⍋↑A.Lowercase r2[;1];]
+              r←⎕FMT r2
+              :If ⎕PW<2⊃⍴r
+                  b←⎕PW<⊃∘⍴¨A.dtb↓r
+                  (b⌿r)←↑(2⊃⍴r)↑¨((⎕PW-3)↑¨↓b⌿r),¨⊂'...'
+                  r←⎕PW↑[2]r
+              :EndIf
           :EndIf
         ∇
 
