@@ -196,7 +196,7 @@ Examples from the `Fire` development workspace:
 
 ```
       ⍴L ''
-99 2
+99 150
       G
 acre           
 InternalMethods

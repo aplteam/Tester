@@ -164,11 +164,13 @@
 
     ∇ r←Version
       :Access Public shared
-      r←(Last⍕⎕THIS)'3.9.2.4' '2018-07-04'
+      r←(Last⍕⎕THIS)'3.9.3.1' '2018-07-07'
     ∇
 
     ∇ History
       :Access Public shared
+      ⍝ * 3.9.3
+      ⍝   * Bug fix 3.9.2 broke the `E` helper.
       ⍝ * 3.9.2
       ⍝   * Bug fix: `L` should take ⎕PW into account but did not.
       ⍝ * 3.9.1
@@ -178,21 +180,6 @@
       ⍝ * 3.8.0
       ⍝   All helpers are now truely and under all possible circumstances independent from `⎕IO/⎕ML` but also do not
       ⍝   localize them.
-      ⍝ * 3.7.0
-      ⍝   Output improved. Mark-up is explained and non-active tests explain themselves.
-      ⍝ * 3.6.2
-      ⍝   * The helpers crashed in case `APLTreeUtils` was not available in `#`. The helpers need to make an effort
-      ⍝     in order to find it anywhere sensible.
-      ⍝   * The `Run*` functions relied on a particular setting of `⎕IO` and `⎕ML`.
-      ⍝   * Some of the helpers  relied on a certain setting of `⎕IO` and `⎕ML`.
-      ⍝ * 3.6.1
-      ⍝   Function `G` ignores all test functions that carry more than one `_`.
-      ⍝ * 3.6.0
-      ⍝   * `Cleanup` may now also be a monadic function.
-      ⍝ * 3.5.0
-      ⍝   * Change in policy regarding INI files: `Tester` now looks for both INI files, "testcase\_{computername}.ini"
-      ⍝     as well as "testcase.ini". If both exist they are both taken into account. In case of a name conflict the
-      ⍝     more specific one ("testcase\_{computername}.ini") wins.
     ∇
 
     ∇ {(rc log)}←Run refToTestNamespace;flags;⎕IO;⎕ML
@@ -315,6 +302,8 @@
     ⍝ Takes a ref to a namespace hosting test cases and establishes some functions,
     ⍝ among them `ListHelpers` which lists all those functions with their leading
     ⍝ comment line.\\
+    ⍝ This function is usually called within the namespace that hosts the tests. In that
+    ⍝ case `⎕THIS` as the right argument is recommended.
     ⍝ ## If the hosting namespace is scripted
     ⍝ * The left argument is ignored.
     ⍝ * The template test function is not established.
@@ -326,7 +315,7 @@
       :Access Public Shared
       r←⍬
       forceTestTemplate←{(0=⎕NC ⍵):0 ⋄ ⍎⍵}'forceTestTemplate'
-      'Invalid right argument'⎕SIGNAL 11/⍨~{((,1)≡,⍵)∨((,0)≡,⍵)}forceTestTemplate
+      'Invalid left argument'⎕SIGNAL 11/⍨~{((,1)≡,⍵)∨((,0)≡,⍵)}forceTestTemplate
       refToTestNamespace←⎕RSI{(0∊⍴⍵):⎕IO⊃⍺ ⋄ ⍵}refToTestNamespace
       'Invalid right argument'⎕SIGNAL 11/⍨#≡refToTestNamespace
       list←Helpers.GetListHelpers
@@ -754,7 +743,11 @@
           :If 0∊⍴list
               list←'T'⎕NL 3
           :ElseIf 2=⍴⍴list
-              list←{⎕ML←1 ⋄ ↑⍵}list[;⎕IO]
+              :If 2=≡list
+                  list←{⎕ML←1 ⋄ ↑⍵}list[;⎕IO]
+              :Else
+                  list←{⎕ML←1 ⋄ ↑⍵}{⍵↑⍨+/∧\⍵≠' '}¨{⍵↓⍨+/∧\' '=⍵}¨↓list
+              :EndIf
           :Else
               'Invalid right argument'⎕SIGNAL 11
           :EndIf
