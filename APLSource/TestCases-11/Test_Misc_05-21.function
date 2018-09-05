@@ -1,4 +1,4 @@
- r←Test_Misc_05(debugFlag batchFlag);rc;list;tmp;expected;stopFlag;⎕TRAP
+ r←Test_Misc_05(stopFlag batchFlag);rc;list;tmp;expected;stopFlag;⎕TRAP
 ⍝ Exercise the "ListTestCases" method
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

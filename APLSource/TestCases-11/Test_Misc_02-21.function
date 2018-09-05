@@ -1,8 +1,7 @@
- r←Test_Misc_02(debugFlag batchFlag);log;rc;stopFlag;⎕TRAP
+ r←Test_Misc_02(stopFlag batchFlag);log;rc;stopFlag;⎕TRAP
 ⍝ Exercise the "RunBatch" method
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
- stopFlag←debugFlag
 
  (rc log)←##.Tester.RunBatchTests TestCasesSimu
  →FailsIf 1≠rc
@@ -13,3 +12,4 @@
  →FailsIf⊃≢/5↑¨(∆CutLog log)(∆DropSeparatorLines' '~¨⍨5↓∆Expected 2)
 
  r←∆OK
+⍝Done

@@ -1,4 +1,4 @@
- r←Test_Helpers_01(debugFlag batchFlag);⎕TRAP;list1;list2;list3
+ r←Test_Helpers_01(stopFlag batchFlag);⎕TRAP;list1;list2;list3
 ⍝ Exercise the `L` helper.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
@@ -15,8 +15,10 @@
  →PassesIf 1<1⊃⍴list2
 
  list3←3 L'Other'
- →PassesIf 1=≡list2
- →PassesIf 2=⍴⍴list2
- →PassesIf 1=1⊃⍴list2
+ →PassesIf 1=≡list3
+ →PassesIf 2=⍴⍴list3
+ →PassesIf 1=1⊃⍴list3
+ →PassesIf∨/'Test_Other_03'⍷∊list3
 
  r←∆OK
+⍝Done

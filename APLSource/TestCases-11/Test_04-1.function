@@ -1,4 +1,4 @@
- r←Test_04(debugFlag batchFlag);log;stopFlag;⎕TRAP
+ r←Test_04(stopFlag batchFlag);log;stopFlag;⎕TRAP
 ⍝ Test the `RenameTestFns`
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

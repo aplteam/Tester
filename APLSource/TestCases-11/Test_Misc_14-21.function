@@ -1,4 +1,4 @@
- r←Test_Misc_14(debugFlag batchFlag);stopFlag;Foo;ref;rc;log;⎕TRAP
+ r←Test_Misc_14(stopFlag batchFlag);stopFlag;Foo;ref;rc;log;⎕TRAP
 ⍝ Exercise `Run` with an `Initial` function that returns a 0 (failure).
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

@@ -1,4 +1,4 @@
- r←Test_Other_03(debugFlag batchFlag);log;local;list;⎕IO;⎕ML;qio;qml;stopFlag;⎕TRAP
+ r←Test_Other_03(stopFlag batchFlag);log;local;list;⎕IO;⎕ML;qio;qml;stopFlag;⎕TRAP
 ⍝ Exercise EstablishHelpersIn
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

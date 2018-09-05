@@ -164,11 +164,15 @@
 
     ∇ r←Version
       :Access Public shared
-      r←(Last⍕⎕THIS)'3.9.3.1' '2018-07-07'
+      r←(Last⍕⎕THIS)'3.9.5.8' '2018-08-30'
     ∇
 
     ∇ History
       :Access Public shared
+      ⍝ * 3.9.5
+      ⍝   * Bug fix: FindSpecialString did not work in 17.0 due to a syntax change
+      ⍝ * 3.9.4
+      ⍝   * Bug fix: the helper `RenameTestFnsTo` was not `⎕IO`/`⎕ML` independent.
       ⍝ * 3.9.3
       ⍝   * Bug fix 3.9.2 broke the `E` helper.
       ⍝ * 3.9.2
@@ -758,7 +762,7 @@
 ⍝ Prints a list with all test cases and the first comment line to the session.
 ⍝ If "group" is not empty then it will print only that group (case independent).
 ⍝ May or may not start with "Test_"
-⍝ If "numbers" is defined only those number are printed.
+⍝ If "numbers" is defined only test cases carrying those numbers are printed.
           ⎕IO←1 ⋄ ⎕ML←1
           :If 9=#.⎕NC'APLTreeUtils'
               A←#.APLTreeUtils
@@ -785,7 +789,7 @@
               :If ~0∊⍴numbers
                   r2←(({⍎⍵↑⍨-(-1)+'_'⍳⍨⌽⍵}¨r2)∊numbers)⌿r2
               :EndIf
-              r2←r2,⍪{{⍵↓⍨+/∧\' '=⍵}{⍵↓⍨⍵⍳'⍝'}{⎕ML←3 ⋄ ∊⍵}1↑1↓⎕NR ⍵}¨r2
+              r2←r2,[1.5]{{⍵↓⍨+/∧\' '=⍵}{⍵↓⍨⍵⍳'⍝'}{⎕ML←3 ⋄ ∊⍵}1↑1↓⎕NR ⍵}¨r2
               r2←r2[⍋↑A.Lowercase r2[;1];]
               r←⎕FMT r2
               :If ⎕PW<2⊃⍴r
@@ -824,15 +828,16 @@
 ⍝ However, at the time of writing the user command ]locate does not work on #.
 ⍝ Reported as bug <01355> to Dyalog on 2017-04-24.
           startIn←{0<⎕NC ⍵:⍎⍵ ⋄ '#'}'startIn'
-          r←⍉1↓[1+⎕IO]⎕SE.UCMD'locate ',what,' -return=count -objects=',⍕startIn
+          r←⍉1↓[1+⎕IO]⎕SE.UCMD'locate "',what,'" -return=count -objects=',⍕startIn
           :If 0<1↑⍴r←(0<r[;⎕IO+1])⌿r                                    ⍝ Drop those with no hits
               r[;⎕IO]←{2>'#'+.=⍵:⍵ ⋄ {⎕IO←0 ⋄ ⌽⍵↑⍨1+⍵⍳'#'}⌽⍵}¨r[;⎕IO]   ⍝ Circumvent bug <01356>
           :EndIf
         ∇
 
-        ∇ {r}←oldName RenameTestFnsTo newName;body;rc;header;comment;res;name;right;left;newParent;oldParent;delFilanme;A
+        ∇ {r}←oldName RenameTestFnsTo newName;body;rc;header;comment;res;name;right;left;newParent;oldParent;delFilanme;A;⎕ML;⎕IO
 ⍝ Renames a test function and tells acre.
 ⍝ r ← ⍬
+          ⎕IO←0 ⋄ ⎕ML←3
           :If 9=#.⎕NC'APLTreeUtils'
               A←#.APLTreeUtils
           :ElseIf 9=⎕NC'APLTreeUtils'

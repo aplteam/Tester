@@ -1,4 +1,4 @@
- r←Test_Misc_09(debugFlag batchFlag);log;stopFlag;⎕TRAP
+ r←Test_Misc_09(stopFlag batchFlag);log;stopFlag;⎕TRAP
 ⍝ Exercise the grouping mechanism without any specific numbers
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

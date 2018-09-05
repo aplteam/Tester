@@ -1,4 +1,4 @@
- r←Test_Other_06(debugFlag batchFlag);ref;stopFlag;⎕TRAP;constants;constant;i
+ r←Test_Other_06(stopFlag batchFlag);ref;stopFlag;⎕TRAP;constants;constant;i
 ⍝ Check all the constants
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

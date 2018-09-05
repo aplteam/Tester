@@ -1,4 +1,4 @@
- r←Test_Helpers_03(debugFlag batchFlag);stopFlag;⎕TRAP;list1
+ r←Test_Helpers_03(stopFlag batchFlag);stopFlag;⎕TRAP;list1
 ⍝ Exercise the `E` helper.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
 

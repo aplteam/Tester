@@ -1,8 +1,7 @@
- r←Test_Misc_11(debugFlag batchFlag);log;rc;stopFlag;buff;⎕TRAP
+ r←Test_Misc_11(stopFlag batchFlag);log;rc;stopFlag;buff;⎕TRAP
 ⍝ Exercise the "RunBatchTestsInDebugMode" method
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
- stopFlag←debugFlag
 
  TestCasesSimu.Initial{⍵.batchFlag←1 ⋄ ⍵}⎕NS''
  TestCasesSimu.Tester←##.Tester
@@ -11,3 +10,4 @@
  →FailsIf 13 2 0 2≢∆GetTotals log
 
  r←∆OK
+⍝Done

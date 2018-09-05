@@ -1,4 +1,4 @@
- r←Test_Misc_10(debugFlag batchFlag);log;stopFlag;T;buff;shouldBe;is;⎕TRAP;rc
+ r←Test_Misc_10(stopFlag batchFlag);log;stopFlag;T;buff;shouldBe;is;⎕TRAP;rc
 ⍝ Exercise the different `type`s of results a test function might return.
 ⍝  ¯1 = Not a batch test function
 ⍝  ¯2 = Inactive
@@ -7,7 +7,6 @@
 ⍝ ¯12 = Runs under Mac OS only
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
- stopFlag←debugFlag
 
  #.⎕SHADOW'TEMP'
  T←⍎'TEMP'#.⎕NS''

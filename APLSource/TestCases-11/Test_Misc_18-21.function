@@ -1,4 +1,4 @@
- r←Test_Misc_18(debugFlag batchFlag);rc;list;tmp;expected;stopFlag;⎕TRAP
+ r←Test_Misc_18(stopFlag batchFlag);rc;list;tmp;expected;stopFlag;⎕TRAP
 ⍝ Exercise "G" and "L"
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

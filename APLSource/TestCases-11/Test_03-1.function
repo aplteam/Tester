@@ -1,4 +1,4 @@
- r←Test_03(debugFlag batchFlag);log;stopFlag;⎕TRAP
+ r←Test_03(stopFlag batchFlag);log;stopFlag;⎕TRAP
 ⍝ Tests all sorts of "Run" functions.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

@@ -1,8 +1,7 @@
- r←Test_Misc_01(debugFlag batchFlag);log;stopFlag;⎕TRAP;rc
+ r←Test_Misc_01(stopFlag batchFlag);log;stopFlag;⎕TRAP;rc
 ⍝ Exercise the "Run" method
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
- stopFlag←debugFlag
 
  (rc log)←##.Tester.Run TestCasesSimu
  →FailsIf 0=rc

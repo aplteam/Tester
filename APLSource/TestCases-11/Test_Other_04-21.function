@@ -1,4 +1,4 @@
- r←Test_Other_04(debugFlag batchFlag);ref;stopFlag;⎕TRAP
+ r←Test_Other_04(stopFlag batchFlag);ref;stopFlag;⎕TRAP
 ⍝ Exercise "FailsIf" and "PassesIf"
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

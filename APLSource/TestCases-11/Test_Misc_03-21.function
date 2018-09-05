@@ -1,20 +1,9 @@
- r←Test_Misc_03(debugFlag batchFlag);log;rc;stopFlag;⎕TRAP
+ r←Test_Misc_03(stopFlag batchFlag);log;rc;stopFlag;⎕TRAP
 ⍝ Exercise the "RunDebug" method
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
- stopFlag←debugFlag
 
- :If ~batchFlag
- :AndIf ~(⊂'#.Tester.Run')∊⎕XSI
-
-     ⎕←'In case of a crash enter  →0'
-     ⎕←'Press <Enter> to continue'
-     {}⍞
-
-     log←##.Tester.RunDebug TestCasesSimu
-     →FailsIf 13 3 0≢∆GetTotals log
-     r←∆OK
-
- :Else
-     r←∆NoBatchTest
- :EndIf
+ log←##.Tester.RunDebug TestCasesSimu
+ →FailsIf 13 3 0≢∆GetTotals log
+ r←∆OK
+⍝Done

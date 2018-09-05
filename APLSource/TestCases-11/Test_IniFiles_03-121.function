@@ -15,7 +15,7 @@
  'TEMP'#.⎕NS''
  ##.Tester.EstablishHelpersIn #.TEMP
  #.TEMP.⎕EX'Test_000'
- body←⊂'r←Test_03(debugFlag batchFlag);⎕TRAP'
+ body←⊂'r←Test_03(stopFlag batchFlag);⎕TRAP'
  body,←⊂'⎕TRAP←(999 ''C'' ''. ⍝ Deliberate error'')(0 ''N'')'
  body,←⊂'r←∆Failed'
  body,←⊂'→FailsIf 2≠INI.⎕NC''foo'''

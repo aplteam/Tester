@@ -1,4 +1,4 @@
- r←Test_Misc_16(debugFlag batchFlag);stopFlag;Foo;ref;rc;log;⎕TRAP
+ r←Test_Misc_16(stopFlag batchFlag);stopFlag;Foo;ref;rc;log;⎕TRAP
 ⍝ Exercise `Run` with a scripted hosting namespace
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

@@ -1,4 +1,4 @@
- r←Test_Misc_04(debugFlag batchFlag);log;rc;expected;stopFlag
+ r←Test_Misc_04(stopFlag batchFlag);log;rc;expected;stopFlag
 ⍝ Exercise the "RunTheseIn" method
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

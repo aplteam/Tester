@@ -1,4 +1,4 @@
- r←Test_Other_05(debugFlag batchFlag);ref;stopFlag;⎕TRAP
+ r←Test_Other_05(stopFlag batchFlag);ref;stopFlag;⎕TRAP
 ⍝ Exercise "GoToTidyUp"
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

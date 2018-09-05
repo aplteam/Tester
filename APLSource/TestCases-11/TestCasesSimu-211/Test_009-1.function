@@ -1,4 +1,4 @@
- r←Test_009(debugFlag batchFlag)
+ r←Test_009(stopFlag batchFlag);⎕TRAP
 ⍝ Does not execute in batch mode but fails otherwise
  r←1
  :If batchFlag
