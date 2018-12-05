@@ -68,7 +68,7 @@ No matter which of the `Run*` functions (`Run`, `RunBatchTests`, `RunDebug`, `Ru
 
 ### INI files
 
-First of all the `Run*` method checks whether there is a file `testcases_{computername}.ini`. If this is the case that INI file is processed. Use this to specify computer-dependent variables.
+First of all the `Run*` method check whether there is a file `testcases_{computername}.ini`. If this is the case that INI file is processed. Use this to specify computer-dependent variables.
 
 If no computer-specific INI file was found then it checks whether there is a file `testcases.ini`. If this is the case that INI file is processed, too. Use this to specify general stuff that does not depend on a certain computer/environment.
 
