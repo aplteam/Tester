@@ -84,7 +84,7 @@ Note that if one of the two INI files exists there will be a flat namespace `{yo
 
 Now the `Run*` method checks whether there is a function `Initial` in the hosting namespace. If that is the case then the function is executed.
 
-Note that the function must be either niladic or monadic and --(must not return a result)-- and, since version 3.0, may or may not return a Boolean result. A 1 means that function did what it is supposed to do (=same as no result) while a 0 means it could not initialize.
+Note that the function must be either niladic or monadic and may or may not return a Boolean result. A 1 means that function did what it is supposed to do (=same as no result) while a 0 means it could not initialize.
 
 Of course you can simply execute `→` on a single line in your `Initial` function if any requirement is not met but that would also mean that your test did not run at all. If you run your test case automatically somehow than it should return a 1 indicating failure. Also, part of the initialization might have been carried out, and a function `Cleanup` might get rid of any left-overs.
 
@@ -93,8 +93,6 @@ If the function is monadic then a Boolean is passed as the right argument tellin
 Use this function to create stuff that's needed by '''all''' test cases, or tell the user something important - of course only if the batch flag is false.
 
 It might  be a good idea to call a function tidying up in line 1, just in case a failing test case has left something behind; see below for details.
-
-Another thing to mention is that `Initial` is not a bad place to establish the Helpers - see there for details.
 
 
 ### Finally: running the test cases
