@@ -44,6 +44,7 @@ Note that test cases causing a crash are considered "broken". Test cases that do
 
 1. Every test function must return a result. Use one of the following niladic functions (acting like constants) as explicit result:
 
+| Constant              | Meaning                                                                     |
 |-----------------------|-----------------------------------------------------------------------------|
 | `∆OK`                 | Passed |
 | `∆Failed`             | Unexpected result|
