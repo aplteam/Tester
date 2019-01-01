@@ -171,19 +171,8 @@
       :Access Public shared
       ⍝ * 3.9.5
       ⍝   * Bug fix: FindSpecialString did not work in 17.0 due to a syntax change
-      ⍝ * 3.9.4
-      ⍝   * Bug fix: the helper `RenameTestFnsTo` was not `⎕IO`/`⎕ML` independent.
-      ⍝ * 3.9.3
-      ⍝   * Bug fix 3.9.2 broke the `E` helper.
-      ⍝ * 3.9.2
-      ⍝   * Bug fix: `L` should take ⎕PW into account but did not.
-      ⍝ * 3.9.1
-      ⍝   * Bug fix: `RenameTestFnsTo` did not tell acre about the name change.
-      ⍝ * 3.9.0
-      ⍝   * Converted from the APL wiki to GitHub.
-      ⍝ * 3.8.0
-      ⍝   All helpers are now truely and under all possible circumstances independent from `⎕IO/⎕ML` but also do not
-      ⍝   localize them.
+      ⍝\\
+      ⍝ For information regarding older versions see <https://github.com/aplteam/Tester/releases>
     ∇
 
     ∇ {(rc log)}←Run refToTestNamespace;flags;⎕IO;⎕ML
