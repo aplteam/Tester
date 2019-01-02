@@ -4,8 +4,8 @@
  ##.Tester.EstablishHelpersIn ⍬
  #.Tester←##.Tester
  :If 1<⍴⎕XSI
- :AndIf 'RunDebug'≢1↓↑¯1↑⎕NPARTS↑¯1↑⎕XSI
-     ⎕←'******* Sorry, this test suite can for technical reasons only be executed with "RunDebug"'
+ :AndIf ~(⊂1↓↑¯1↑⎕NPARTS↑¯1↑⎕XSI)∊'RunDebug' 'RunThese'
+     ⎕←'******* Sorry, this test suite can for technical reasons only be executed with "RunDebug" or "RunThese"'
      ⎕←'Press <enter> to continue'
      {}⍞
      r←0

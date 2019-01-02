@@ -1,6 +1,7 @@
- {r}←oldName RenameTestFnsTo newName;body;rc;header;comment;res;name;right;left;newParent;oldParent;delFilanme;A
+ {r}←oldName RenameTestFnsTo newName;body;rc;header;comment;res;name;right;left;newParent;oldParent;delFilanme;A;⎕ML;⎕IO
 ⍝ Renames a test function and tells acre.
 ⍝ r ← ⍬
+ ⎕IO←0 ⋄ ⎕ML←3
  :If 9=#.⎕NC'APLTreeUtils'
      A←#.APLTreeUtils
  :ElseIf 9=⎕NC'APLTreeUtils'
@@ -83,39 +84,26 @@
      oldParent.⎕EX oldName
  :Else
      (oldName newName)←{(⍕newParent),'.',⍵}¨oldName newName
-     :If 0<⎕SE.⎕NC'acre'
-         :If 3=⎕SE.acre.⎕NC'run'  ⍝ acre 4?!
-             delFilanme←({⎕ML←1 ⋄ ⊃⍵}'changefile'⎕SE.acre.run newName),'.DEL'
-             :If ⎕NEXISTS delFilanme
-                 ⎕NDELETE delFilanme
-             :EndIf
-             :If 0∊⍴rc←'putchange'⎕SE.acre.run,newName
-                 ⎕←'acre was told about the introduction of a new test fns but it was not interested.'
-             :EndIf
-             :If 0∊⍴rc←⎕SE.UCMD'acre.Erase ',oldName
-                 ⎕←'acre was told about the deletion of a test fns but it was not interested.'
-             :EndIf
-         :Else
-             delFilanme←({⎕ML←1 ⋄ ⊃⍵}⎕SE.UCMD'acre.getchangefilename ',newName),'.DEL'
-             :If ⎕NEXISTS delFilanme
-                 ⎕NDELETE delFilanme
-             :EndIf
-             :If 0∊⍴rc←⎕SE.UCMD'acre.setchanged ',newName
-                 ⎕←'acre was told about the introduction of a new test fns but it was not interested.'
-             :EndIf
-             :If 0∊⍴rc←⎕SE.UCMD'acre.Erase ',oldName
-                 ⎕←'acre was told about the deletion of a test fns but it was not interested.'
-             :EndIf
-         :EndIf
-     :Else
-         delFilanme←({⎕ML←1 ⋄ ⊃⍵}#.acre.GetChangeFileName newName),'.DEL'
+     :If 3=⎕SE.acre.⎕NC'run'  ⍝ acre 4 or better?!
+         delFilanme←((-⍴'.change')↓'changefile'⎕SE.acre.run newName),'.delete'
          :If ⎕NEXISTS delFilanme
              ⎕NDELETE delFilanme
          :EndIf
-         :If 0∊⍴rc←#.acre.SetChanged newName
+         :If 0∊⍴rc←⎕SE.UCMD'acre.SetChanged ',newName
              ⎕←'acre was told about the introduction of a new test fns but it was not interested.'
          :EndIf
-         :If 0∊⍴rc←#.acre.Erase oldName
+         :If 0∊⍴rc←⎕SE.UCMD'acre.Erase ',oldName
+             ⎕←'acre was told about the deletion of a test fns but it was not interested.'
+         :EndIf
+     :Else
+         delFilanme←((-⍴'.change')↓⎕SE.UCMD'acre.getchangefilename ',newName),'.DEL'
+         :If ⎕NEXISTS delFilanme
+             ⎕NDELETE delFilanme
+         :EndIf
+         :If 0∊⍴rc←⎕SE.UCMD'acre.setchanged ',newName
+             ⎕←'acre was told about the introduction of a new test fns but it was not interested.'
+         :EndIf
+         :If 0∊⍴rc←⎕SE.UCMD'acre.Erase ',oldName
              ⎕←'acre was told about the deletion of a test fns but it was not interested.'
          :EndIf
      :EndIf

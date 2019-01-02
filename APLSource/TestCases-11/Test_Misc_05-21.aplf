@@ -2,7 +2,6 @@
 ⍝ Exercise the "ListTestCases" method
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
- stopFlag←debugFlag
 
 ⍝ Pre-conditions
  tmp←⎕NS''

@@ -1,11 +1,16 @@
- r←Test_Helpers_04(stopFlag batchFlag);stopFlag;⎕TRAP;list1;list
+ r←Test_Helpers_04(stopFlag batchFlag);stopFlag;⎕TRAP;list1;list;io;ml;⎕IO;⎕ML
 ⍝ Exercise the `ListHelpers` helper.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
 
  r←∆Failed
 
- list←ListHelpers 1
- →PassesIf 2=≡list
- →PassesIf 2=⍴⍴list
+ :For io :In 0 1
+     :For ml :In 0 1 2 3
+         ⎕IO←io ⋄ ⎕ML←ml
+         list←ListHelpers 1
+         →PassesIf 2=≡list
+         →PassesIf 2=⍴⍴list
+     :EndFor
+ :EndFor
 
  r←∆OK

@@ -2,4 +2,4 @@
 ⍝ Pro-forma test used to test RunThese 1 2
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆OK
- stopFlag←debugFlag
+⍝Done

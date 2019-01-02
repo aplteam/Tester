@@ -2,7 +2,6 @@
 ⍝ Exercise the "RunThese" method
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
- stopFlag←debugFlag
 
  A←#.APLTreeUtils
 
@@ -22,7 +21,7 @@
 
 ⍝ The tests
  log←1↓tmp.RunThese 2 4
- →FailsIf 17≠⍴log
+ →FailsIf~(⍴log)∊17 18
  →FailsIf 1 0 0≢∆GetTotals log
 
  :Trap 0
@@ -33,11 +32,11 @@
  :EndTrap
 
  log←1↓tmp.RunThese'Grp2'
- →FailsIf 18≠⍴log
+ →FailsIf~(⍴log)∊17 18 19
  →FailsIf 2 1 0≢∆GetTotals log
 
  log←1↓tmp.RunThese'Test_Grp2_002'
- →FailsIf 17≠⍴log
+ →FailsIf~(⍴log)∊16 17 18
  →FailsIf 1 0 0≢∆GetTotals log
 
  log←1↓tmp.RunThese'Test_Grp'
@@ -47,15 +46,15 @@
  →PassesIf 5 3 0≡∆GetTotals log
 
  log←1↓tmp.RunThese'Run'
- →FailsIf 17≠⍴log
+ →FailsIf~(⍴log)∊16 17 18
  →PassesIf 1 0 0≡∆GetTotals log
 
  log←1↓tmp.RunThese'Test_Run'
- →FailsIf 17≠⍴log
+ →FailsIf~(⍴log)∊16 17 18
  →PassesIf 1 0 0≡∆GetTotals log
 
  log←1↓tmp.RunThese'Test_Run*'
- →FailsIf 17≠⍴log
+ →FailsIf~(⍴log)∊16 17 18
  →PassesIf 1 0 0≡∆GetTotals log
 
  r←∆OK

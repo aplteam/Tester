@@ -164,13 +164,13 @@
 
     ∇ r←Version
       :Access Public shared
-      r←(Last⍕⎕THIS)'3.9.5.9' '2018-08-30'
+      r←(Last⍕⎕THIS)'3.9.6.11' '2019-01-02'
     ∇
 
     ∇ History
       :Access Public shared
-      ⍝ * 3.9.5
-      ⍝   * Bug fix: FindSpecialString did not work in 17.0 due to a syntax change
+      ⍝ * 3.9.6
+      ⍝   * Bug fix: `ListHelpers` was not `⎕ML`-independent.
       ⍝\\
       ⍝ For information regarding older versions see <https://github.com/aplteam/Tester/releases>
     ∇
@@ -909,39 +909,26 @@
               oldParent.⎕EX oldName
           :Else
               (oldName newName)←{(⍕newParent),'.',⍵}¨oldName newName
-              :If 0<⎕SE.⎕NC'acre'
-                  :If 3=⎕SE.acre.⎕NC'run'  ⍝ acre 4?!
-                      delFilanme←({⎕ML←1 ⋄ ⊃⍵}'changefile'⎕SE.acre.run newName),'.DEL'
-                      :If ⎕NEXISTS delFilanme
-                          ⎕NDELETE delFilanme
-                      :EndIf
-                      :If 0∊⍴rc←⎕SE.UCMD'acre.SetChanged ',newName
-                          ⎕←'acre was told about the introduction of a new test fns but it was not interested.'
-                      :EndIf
-                      :If 0∊⍴rc←⎕SE.UCMD'acre.Erase ',oldName
-                          ⎕←'acre was told about the deletion of a test fns but it was not interested.'
-                      :EndIf
-                  :Else
-                      delFilanme←({⎕ML←1 ⋄ ⊃⍵}⎕SE.UCMD'acre.getchangefilename ',newName),'.DEL'
-                      :If ⎕NEXISTS delFilanme
-                          ⎕NDELETE delFilanme
-                      :EndIf
-                      :If 0∊⍴rc←⎕SE.UCMD'acre.setchanged ',newName
-                          ⎕←'acre was told about the introduction of a new test fns but it was not interested.'
-                      :EndIf
-                      :If 0∊⍴rc←⎕SE.UCMD'acre.Erase ',oldName
-                          ⎕←'acre was told about the deletion of a test fns but it was not interested.'
-                      :EndIf
-                  :EndIf
-              :Else
-                  delFilanme←({⎕ML←1 ⋄ ⊃⍵}#.acre.GetChangeFileName newName),'.DEL'
+              :If 3=⎕SE.acre.⎕NC'run'  ⍝ acre 4 or better?!
+                  delFilanme←((-⍴'.change')↓'changefile'⎕SE.acre.run newName),'.delete'
                   :If ⎕NEXISTS delFilanme
                       ⎕NDELETE delFilanme
                   :EndIf
-                  :If 0∊⍴rc←#.acre.SetChanged newName
+                  :If 0∊⍴rc←⎕SE.UCMD'acre.SetChanged ',newName
                       ⎕←'acre was told about the introduction of a new test fns but it was not interested.'
                   :EndIf
-                  :If 0∊⍴rc←#.acre.Erase oldName
+                  :If 0∊⍴rc←⎕SE.UCMD'acre.Erase ',oldName
+                      ⎕←'acre was told about the deletion of a test fns but it was not interested.'
+                  :EndIf
+              :Else
+                  delFilanme←((-⍴'.change')↓⎕SE.UCMD'acre.getchangefilename ',newName),'.DEL'
+                  :If ⎕NEXISTS delFilanme
+                      ⎕NDELETE delFilanme
+                  :EndIf
+                  :If 0∊⍴rc←⎕SE.UCMD'acre.setchanged ',newName
+                      ⎕←'acre was told about the introduction of a new test fns but it was not interested.'
+                  :EndIf
+                  :If 0∊⍴rc←⎕SE.UCMD'acre.Erase ',oldName
                       ⎕←'acre was told about the deletion of a test fns but it was not interested.'
                   :EndIf
               :EndIf
@@ -950,12 +937,13 @@
           :EndIf
         ∇
 
-        ∇ r←ListHelpers force;list;force;A
+        ∇ r←ListHelpers force;list;force;A;⎕ML
 ⍝ Lists all helpers available from the `Tester` class.
 ⍝ When called by a user pass a `0` as right argument to see all helpers that are actually available.
 ⍝ Specify a `1` in case you want to see all Helpers that **might** be available.
 ⍝ Helpers are usually established by calling the `EstablishHelpers' method.
 ⍝ The list includes helpers that won't be established in case the namespace hosting the test cases is scripted!
+          ⎕ML←1
           force←⎕THIS≡{⎕ML←1 ⋄ ⊃⍵}(1↓⎕RSI),⊂''
           r←0 2⍴' '
           list←'Run' 'RunDebug' 'RunThese' 'RunBatchTests' 'RunBatchTestsInDebugMode' 'E' 'L' 'G' 'FailsIf' 'PassesIf'
@@ -963,8 +951,8 @@
           list,←'∆WindowsOnly' '∆LinuxOnly' '∆MacOnly' '∆LinuxOrMacOnly' '∆LinuxOrWindowsOnly'
           list,←'∆MacOrWindowsOnly' 'FindSpecialString' '∆NotApplicable'
           list←,¨list
-          :If 'Tester.Helpers'≢{⍵↑⍨-+/∧\2>+\⌽'.'=⍵}⍕{⎕ML←1 ⋄ ⊃⍵}⎕RSI
-              list/⍨←force∨0<{⎕ML←1 ⋄ ⊃⍵}∘⎕NC¨list   ⍝ List only those that are around
+          :If 'Tester.Helpers'≢{⍵↑⍨-+/∧\2>+\⌽'.'=⍵}⍕⊃⎕RSI
+              list/⍨←force∨0<⊃∘⎕NC¨list   ⍝ List only those that are around
           :EndIf
           :If 9=#.⎕NC'APLTreeUtils'
               A←#.APLTreeUtils
@@ -972,14 +960,14 @@
               A←APLTreeUtils
           :ElseIf 9=##.⎕NC'APLTreeUtils'
               A←##.APLTreeUtils
-          :ElseIf 9∊{⎕ML←1 ⋄ ⊃¨⍵}⎕RSI.⎕NC⊂'APLTreeUtils'
-              A←(⊃(9={⎕ML←1 ⋄ ⊃ ⋄ ⍵}⎕RSI.⎕NC⊂'APLTreeUtils')/⎕RSI).APLTreeUtils
+          :ElseIf 9∊⊃¨⎕RSI.⎕NC⊂'APLTreeUtils'
+              A←(⊃(9=⊃⎕RSI.⎕NC⊂'APLTreeUtils')/⎕RSI).APLTreeUtils
           :ElseIf 9∊{⎕ML←1 ⋄ ⊃¨⍵}⎕RSI.##.⎕NC⊂'APLTreeUtils'
-              A←(⊃(9={⎕ML←1 ⋄ ⊃¨⍵}⎕RSI.##.⎕NC⊂'APLTreeUtils')/⎕RSI.##).APLTreeUtils
+              A←(⊃(9=⊃¨⎕RSI.##.⎕NC⊂'APLTreeUtils')/⎕RSI.##).APLTreeUtils
           :Else
               'Missing: APLTreeUtils'⎕SIGNAL 6
           :EndIf
-          r←{⎕ML←1 ⋄ ↑⍵}{⍵(A.dlb{⍺⍺{⎕IO←1 ⋄ ⍵↓⍨¯1+⍵⍳'⍝'}⍺⍺ ⍵}⎕IO⊃(1↓⎕NR ⍵),⊂'')}¨list
+          r←↑{⍵(A.dlb{⍺⍺{⎕IO←1 ⋄ ⍵↓⍨¯1+⍵⍳'⍝'}⍺⍺ ⍵}⎕IO⊃(1↓⎕NR ⍵),⊂'')}¨list
         ∇
 
         ∇ r←GetCode name

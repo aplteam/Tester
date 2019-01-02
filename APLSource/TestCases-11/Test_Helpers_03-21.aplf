@@ -10,7 +10,7 @@
      r←∆Failed
 
      ⎕←⎕PW↑'   --- ',(↑⎕SI),⎕PW⍴'-'
-     ⎕←'   This text case needs you: it openes an edit window, and you must close it!'
+     ⎕←'   This text case needs you: it opens an edit window, and you must close it!'
      ⎕←'   Press enter to continue'
      {}⍞
      E 1↑L''

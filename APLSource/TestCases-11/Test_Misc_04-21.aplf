@@ -2,7 +2,6 @@
 ⍝ Exercise the "RunTheseIn" method
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
- stopFlag←debugFlag
 
  log←2 3 ##.Tester.RunTheseIn ##.TestCases.TestCasesSimu
  expected←'  1 test case executed' '  0 test cases failed' '  0 test cases broken'

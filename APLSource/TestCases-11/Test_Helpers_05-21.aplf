@@ -9,7 +9,7 @@
  #.TEMP.⎕FX'R←test_001 y' 'R←0'
  folder←¯4↓#.FilesAndDirs.GetTempFilename2''
  #.FilesAndDirs.RmDir folder
- result←⎕SE.UCMD'acre.CreateProject ',folder,' #.TEMP -messages=off -casecode=off'
+ result←⎕SE.UCMD'acre.CreateProject ',folder,' #.TEMP -keephistory=on -casecode=off'
  →GoToTidyUp'#.TEMP'≢result
  →GoToTidyUp~0∊⍴#.FilesAndDirs.ListFiles folder,'/.acre/changes'
  #.Tester.EstablishHelpersIn #.TEMP
