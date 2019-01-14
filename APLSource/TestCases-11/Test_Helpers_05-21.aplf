@@ -16,7 +16,7 @@
  result←'#.TEMP.test_001'#.TEMP.RenameTestFnsTo'#.TEMP.test_groups_002'
  →GoToTidyUp~0∊⍴result
  →GoToTidyUp 2≠⍴result←#.FilesAndDirs.ListFiles folder,'/.acre/changes'
- filenames←⊃¨¨⎕NPARTS #.FilesAndDirs.ListFiles folder,'/.acre/changes'
+ filenames←⊃¨¨⎕NPARTS¨#.FilesAndDirs.ListFiles folder,'/.acre/changes'
  →GoToTidyUp'.delete' '.change'≢↑¨¯1↑¨filenames
  'test_001' 'test_groups_02'≢↑¨'.'#.APLTreeUtils.Split¨2⊃¨filenames
 

@@ -164,11 +164,13 @@
 
     ∇ r←Version
       :Access Public shared
-      r←(Last⍕⎕THIS)'3.9.6.1.2' '2019-01-02'
+      r←(Last⍕⎕THIS)'3.9.7.1.3' '2019-01-14'
     ∇
 
     ∇ History
       :Access Public shared
+      ⍝ * 3.9.6
+      ⍝   * Bug fix: The Helper `L` did not work under some circumstances.
       ⍝ * 3.9.6
       ⍝   * Bug fix: `ListHelpers` was not `⎕ML`-independent.
       ⍝\\
@@ -961,7 +963,7 @@
           :ElseIf 9=##.⎕NC'APLTreeUtils'
               A←##.APLTreeUtils
           :ElseIf 9∊⊃¨⎕RSI.⎕NC⊂'APLTreeUtils'
-              A←(⊃(9=⊃⎕RSI.⎕NC⊂'APLTreeUtils')/⎕RSI).APLTreeUtils
+              A←(⊃(9=⊃¨⎕RSI.⎕NC⊂'APLTreeUtils')/⎕RSI).APLTreeUtils
           :ElseIf 9∊{⎕ML←1 ⋄ ⊃¨⍵}⎕RSI.##.⎕NC⊂'APLTreeUtils'
               A←(⊃(9=⊃¨⎕RSI.##.⎕NC⊂'APLTreeUtils')/⎕RSI.##).APLTreeUtils
           :Else
