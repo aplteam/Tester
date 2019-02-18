@@ -160,19 +160,17 @@
 
     ⎕IO←1 ⋄ ⎕ML←3
 
-    :Include ##.APLTreeUtils
+    :Include APLTreeUtils
 
     ∇ r←Version
       :Access Public shared
-      r←(Last⍕⎕THIS)'3.9.7.1.3' '2019-01-14'
+      r←(Last⍕⎕THIS)'3.9.8.14' '2019-02-18'
     ∇
 
     ∇ History
       :Access Public shared
-      ⍝ * 3.9.6
-      ⍝   * Bug fix: The Helper `L` did not work under some circumstances.
-      ⍝ * 3.9.6
-      ⍝   * Bug fix: `ListHelpers` was not `⎕ML`-independent.
+      ⍝ * 3.9.8
+      ⍝   * :Include APLTreeUtils fixed
       ⍝\\
       ⍝ For information regarding older versions see <https://github.com/aplteam/Tester/releases>
     ∇
