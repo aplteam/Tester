@@ -22,7 +22,7 @@
 
 ⍝ The tests
  →PassesIf(↑⍴tmp.L'')=↑⍴'T'tmp.⎕NL 3
- →PassesIf(+/'Test_Grp'{((⍴⍺)↑[2]⍵)∧.=⍺}'T'tmp.⎕NL 3)=↑⍴tmp.L'grp'
+ →PassesIf(+/'Test_Grp'{((⍴⍺)↑[2]⍵)∧.=⍺}'T'tmp.⎕NL 3)=↑⍴tmp.L'Grp*'
  →PassesIf 5=1↑⍴tmp.G
 
  r←∆OK

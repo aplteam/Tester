@@ -1,27 +1,31 @@
- r←Test_Misc_04(stopFlag batchFlag);log;rc;expected;stopFlag
+ r←Test_Misc_04(stopFlag batchFlag);log;rc;expected;stopFlag;ref2Gui
 ⍝ Exercise the "RunTheseIn" method
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
 
- log←2 3 ##.Tester.RunTheseIn ##.TestCases.TestCasesSimu
+ (rc log ref2Gui)←2 3 ##.Tester.RunTheseIn ##.TestCases.TestCasesSimu
+ ∆CloseGui ref2Gui
  expected←'  1 test case executed' '  0 test cases failed' '  0 test cases broken'
  →FailsIf expected≢¯3↑¯4↓log
 
- :Trap 1001
-     log←¯2 ##.Tester.RunTheseIn TestCasesSimu
+ :Trap 1001   ⍝ Catch stop vector
+     (rc log ref2Gui)←¯2 ##.Tester.RunTheseIn TestCasesSimu
+     ∆CloseGui ref2Gui
      →FailsIf 1
  :EndTrap
 
- :Trap 1001
+ :Trap 1001    ⍝ Catch stop vector
      log←0 ##.Tester.RunTheseIn TestCasesSimu
      →FailsIf 1
  :EndTrap
 
  ⎕TRAP←(1001 'E' '→⎕lc')(0 'S')
- log←'Grp1' 0 ##.Tester.RunTheseIn TestCasesSimu
+ (rc log ref2Gui)←'Grp1' 0 ##.Tester.RunTheseIn TestCasesSimu
+ ∆CloseGui ref2Gui
  →FailsIf 3 0 0≢∆GetTotals log
 
- log←'Test_Grp1' 0 ##.Tester.RunTheseIn TestCasesSimu
+ (rc log ref2Gui)←'Test_Grp1' 0 ##.Tester.RunTheseIn TestCasesSimu
+ ∆CloseGui ref2Gui
  →FailsIf 3 0 0≢∆GetTotals log
 
  r←∆OK

@@ -1,4 +1,4 @@
- r←Test_IniFiles_01(stopFlag batchFlag);log;stopFlag;⎕TRAP;rc;ini;body;report;iniFilename
+ r←Test_IniFiles_01(stopFlag batchFlag);log;stopFlag;⎕TRAP;rc;ini;body;report;iniFilename;ref2Gui
 ⍝ Exercise simple test case with a single INI file "testcase.ini"
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
@@ -22,13 +22,17 @@
  body,←⊂'→FailsIf INI.goo≢''Hello'''
  body,←⊂'r←∆OK'
  #.TEMP.⎕FX body
- report←∊#.TEMP.RunDebug 0
+ (rc report ref2Gui)←#.TEMP.RunDebug 0
+ report←∊report
  →GoToTidyUp 1≠+/'INI file(s) "Testcases.ini" found and instantiated as INI'⍷report
  →GoToTidyUp 1≠+/'1 test case executed'⍷report
  →GoToTidyUp 1≠+/'0 test cases failed'⍷report
  →GoToTidyUp 1≠+/'0 test cases broken'⍷report
+ ∆CloseGui ref2Gui
 
  r←∆OK
 
 ∆TidyUp:
- #.FilesAndDirs iniFilename
+ :Trap 0 ⋄ #.FilesAndDirs.DeleteFile iniFilename ⋄ :EndTrap
+ :Trap 0 ⋄ ⎕NQ ref2Gui'Close' ⋄ :EndTrap
+⍝Done

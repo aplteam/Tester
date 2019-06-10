@@ -4,4 +4,4 @@
 ⍝ this test case is reported as "failed" rather than "broken.
  r←∆Failed
  .  ⍝ Now enter "→0" when running the #.Tester test cases
- r←∆OK
+⍝ r←∆OK

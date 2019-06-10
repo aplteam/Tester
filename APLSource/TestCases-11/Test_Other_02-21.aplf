@@ -1,10 +1,12 @@
- r←Test_Other_02(stopFlag batchFlag);log;stopFlag;⎕TRAP
+ r←Test_Other_02(stopFlag batchFlag);log;stopFlag;⎕TRAP;ref2Gui;rc
 ⍝ Exercise RunTheseIn: grouping mechanism but without any hits
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
  stopFlag←debugFlag
 
- log←'Grouping' 999999 ##.Tester.RunTheseIn TestCasesSimu
+ (rc log ref2Gui)←'Grouping' 999999 ##.Tester.RunTheseIn TestCasesSimu
+ →PassesIf 0=rc
+ ∆CloseGui ref2Gui
  →PassesIf 0 0 0≡∆GetTotals log
 
  r←∆OK

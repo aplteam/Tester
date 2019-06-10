@@ -4,12 +4,10 @@
  r←∆Failed
 
  (rc log)←##.Tester.RunBatchTests TestCasesSimu
- →FailsIf 1≠rc
- →FailsIf⊃≢/5↑¨(∆CutLog log)(∆DropSeparatorLines' '~¨⍨5↓∆Expected 2)
-
- (rc log)←1 ##.Tester.RunBatchTests TestCasesSimu
- →FailsIf 1≠rc
- →FailsIf⊃≢/5↑¨(∆CutLog log)(∆DropSeparatorLines' '~¨⍨5↓∆Expected 2)
+ →PassesIf 3=+/'...not found'⍷∊log  ⍝ No INI file and no `Cleanup` function
+ →PassesIf∨/'13 test cases executed'⍷∊log
+ →PassesIf∨/'1 test case failed (flagged with leading "*")'⍷∊log
+ →PassesIf∨/'2 test cases not executed because they are not "batchable" (flagged with leading "-")'⍷∊log
 
  r←∆OK
 ⍝Done

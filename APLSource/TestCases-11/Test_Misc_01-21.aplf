@@ -1,10 +1,13 @@
- r←Test_Misc_01(stopFlag batchFlag);log;stopFlag;⎕TRAP;rc
+ r←Test_Misc_01(stopFlag batchFlag);log;stopFlag;⎕TRAP;rc;ref2Gui
 ⍝ Exercise the "Run" method
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
 
  (rc log)←##.Tester.Run TestCasesSimu
  →FailsIf 0=rc
- →FailsIf⊃≢/(∆CutLog log)(∆DropSeparatorLines' '~¨⍨5↓∆Expected 1)
+ →PassesIf 3=+/'...not found'⍷∊log  ⍝ No INI file and no `Cleanup` function
+ →PassesIf∨/'13 test cases executed'⍷∊log
+ →PassesIf∨/'2 test cases failed (flagged with leading "*")'⍷∊log
+ →PassesIf∨/'1 test case broken (flagged with leading "#")'⍷∊log
 
  r←∆OK

@@ -1,10 +1,12 @@
- r←Test_Misc_09(stopFlag batchFlag);log;stopFlag;⎕TRAP
+ r←Test_Misc_09(stopFlag batchFlag);log;stopFlag;⎕TRAP;ref2Gui;rc
 ⍝ Exercise the grouping mechanism without any specific numbers
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
+ ⎕TRAP←0 'S'
  stopFlag←debugFlag
 
- log←('Grouping' '')##.Tester.RunTheseIn TestCasesSimu
- →PassesIf 3=+/⊃∨/∨/¨'grouping [1]' 'grouping [2]' 'grouping [3]'⍷¨⊂⊃log
+ (rc log ref2Gui)←('Grouping' '')##.Tester.RunTheseIn TestCasesSimu
+ ∆CloseGui ref2Gui
+ →PassesIf 3=+/⊃∨/∨/¨'Test_Grouping_001 ' 'Test_Grouping_002 ' 'Test_Grouping_003 '⍷¨⊂⊃log
 
  r←∆OK

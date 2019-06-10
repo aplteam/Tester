@@ -1,15 +1,15 @@
- r←Test_IniFiles_03(stopFlag batchFlag);log;stopFlag;⎕TRAP;rc;ini;body;report;iniFilename
+ r←Test_IniFiles_03(stopFlag batchFlag);log;stopFlag;⎕TRAP;rc;ini;body;report;iniFilename1;iniFilename2
 ⍝ Exercise test case with a two INI files: "testcases.ini" & "testcases_{computername}.ini"
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
 
  ini←'[Config]' 'foo = 1' 'goo = ''Hello'''
- iniFilename←'Testcases.ini'
- #.APLTreeUtils.WriteUtf8File iniFilename ini
+ iniFilename1←'Testcases.ini'
+ #.APLTreeUtils.WriteUtf8File iniFilename1 ini
 
  ini←'[Config]' 'foo = 2' 'too = ''Universe'''
- iniFilename←'Testcases_',#.WinSys.GetComputerName,'.ini'
- #.APLTreeUtils.WriteUtf8File iniFilename ini
+ iniFilename2←'Testcases_',#.WinSys.GetComputerName,'.ini'
+ #.APLTreeUtils.WriteUtf8File iniFilename2 ini
 
  #.⎕SHADOW'TEMP'
  'TEMP'#.⎕NS''
@@ -36,4 +36,4 @@
  r←∆OK
 
 ∆TidyUp:
- #.FilesAndDirs iniFilename
+ #.FilesAndDirs.DeleteFile iniFilename1 iniFilename2

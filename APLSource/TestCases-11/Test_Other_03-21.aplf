@@ -22,8 +22,8 @@
          local.⎕FX(⊂'R←Test_Grp2_01(stopFlag batchFlag);⎕TRAP'),1↓⎕NR'local.Test_0000'
          →FailsIf 2≠⍬⍴⍴local.L'Grp1'
          →FailsIf 1≠⍬⍴⍴1 local.L'Grp1'
-         →FailsIf 1≠⍬⍴⍴local.L'grp2'
-         →FailsIf 0≠⍬⍴⍴local.L'grp3'
+         →FailsIf 1≠⍬⍴⍴local.L'Grp2'
+         →FailsIf 0≠⍬⍴⍴local.L'Grp3'
 
      :EndFor
  :EndFor

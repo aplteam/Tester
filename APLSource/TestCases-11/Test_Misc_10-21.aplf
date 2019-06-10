@@ -1,4 +1,4 @@
- r←Test_Misc_10(stopFlag batchFlag);log;stopFlag;T;buff;shouldBe;is;⎕TRAP;rc
+ r←Test_Misc_10(stopFlag batchFlag);log;stopFlag;T;log;shouldBe;⎕TRAP;rc
 ⍝ Exercise the different `type`s of results a test function might return.
 ⍝  ¯1 = Not a batch test function
 ⍝  ¯2 = Inactive
@@ -23,11 +23,9 @@
 
  ##.Tester.EstablishHelpersIn T
  T.Tester←##.Tester
- (rc buff)←T.Run
+ (rc log)←T.Run
  →PassesIf 1=rc
- buff↓⍨←1++/∧\~'-----'∘{⍺≡(⍴⍺)↑⍵}¨buff
  shouldBe←1⌈{⍵↑⍵}10
- is←∊{(//)⎕VFI↑' '#.APLTreeUtils.Split ⍵}¨#.APLTreeUtils.dlb buff
- →PassesIf shouldBe≡is
+ →PassesIf shouldBe≡∆GetTotals log
 
  r←∆OK

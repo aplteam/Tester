@@ -1,25 +1,35 @@
- r←Test_03(stopFlag batchFlag);log;stopFlag;⎕TRAP
+ r←Test_03(stopFlag batchFlag);log;stopFlag;⎕TRAP;rc;ref2Gui
 ⍝ Tests all sorts of "Run" functions.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
  stopFlag←debugFlag
 
- log←RunThese 1
- →FailsIf(,⊂'Test_01')≢{⍵↑⍨¯1+⍵⍳' '}¨'Test_'{⍵/⍨⍺∘≡¨(⍴⍺)↑¨⍵}#.APLTreeUtils.dlb 1↓log
+ (rc log ref2Gui)←RunThese 1
+ →GoToTidyUp(,⊂'Test_01')≢{⍵/⍨0<≢¨⍵}ref2Gui.∆n.Grid.Values[;2]
+ ∆CloseGui ref2Gui
 
- log←RunThese 1 2
- →FailsIf'Test_01' 'Test_02'≢{⍵↑⍨¯1+⍵⍳' '}¨'Test_'{⍵/⍨⍺∘≡¨(⍴⍺)↑¨⍵}#.APLTreeUtils.dlb 1↓log
+ (rc log ref2Gui)←RunThese 1 2
+ →GoToTidyUp'Test_01' 'Test_02'≢{⍵/⍨0<≢¨⍵}ref2Gui.∆n.Grid.Values[;2]
+ ∆CloseGui ref2Gui
 
- log←RunThese'foo' 1
- →FailsIf(,⊂'Test_foo_01')≢{⍵↑⍨¯1+⍵⍳' '}¨'Test_'{⍵/⍨⍺∘≡¨(⍴⍺)↑¨⍵}#.APLTreeUtils.dlb 1↓log
+ (rc log ref2Gui)←RunThese'foo' 1
+ →GoToTidyUp(,⊂'Test_foo_01')≢{⍵/⍨0<≢¨⍵}ref2Gui.∆n.Grid.Values[;2]
+ ∆CloseGui ref2Gui
 
- log←RunThese'foo' 1 2
- →FailsIf'Test_foo_01' 'Test_foo_02'≢{⍵↑⍨¯1+⍵⍳' '}¨'Test_'{⍵/⍨⍺∘≡¨(⍴⍺)↑¨⍵}#.APLTreeUtils.dlb 1↓log
+ (rc log ref2Gui)←RunThese'foo' 1 2
+ →GoToTidyUp'Test_foo_01' 'Test_foo_02'≢{⍵/⍨0<≢¨⍵}ref2Gui.∆n.Grid.Values[;2]
+ ∆CloseGui ref2Gui
 
- log←RunThese'' 1
- →FailsIf(,⊂'Test_01')≢{⍵↑⍨¯1+⍵⍳' '}¨'Test_'{⍵/⍨⍺∘≡¨(⍴⍺)↑¨⍵}#.APLTreeUtils.dlb 1↓log
+ (rc log ref2Gui)←RunThese'' 1
+ →GoToTidyUp(,⊂'Test_01')≢{⍵/⍨0<≢¨⍵}ref2Gui.∆n.Grid.Values[;2]
+ ∆CloseGui ref2Gui
 
- log←RunThese'' 1 2
- →FailsIf'Test_01' 'Test_02'≢{⍵↑⍨¯1+⍵⍳' '}¨'Test_'{⍵/⍨⍺∘≡¨(⍴⍺)↑¨⍵}#.APLTreeUtils.dlb 1↓log
+ (rc log ref2Gui)←RunThese'' 1 2
+ →GoToTidyUp'Test_01' 'Test_02'≢{⍵/⍨0<≢¨⍵}ref2Gui.∆n.Grid.Values[;2]
+ ∆CloseGui ref2Gui
 
  r←∆OK
+
+∆TidyUp:
+ ∆CloseGui ref2Gui
+⍝Done

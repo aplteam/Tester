@@ -1,4 +1,4 @@
- r←Test_Other_06(stopFlag batchFlag);ref;stopFlag;⎕TRAP;constants;constant;i
+ r←Test_Other_06(stopFlag batchFlag);ref;stopFlag;⎕TRAP;constants;constant;i;ref2Gui
 ⍝ Check all the constants
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
@@ -15,6 +15,7 @@
      ref.⎕FX('r←Test_',(¯2↑'0',⍕i),' y')('r←',constant)
  :EndFor
  ref.Tester←##.Tester
- {}ref.RunDebug 0
+ ref2Gui←3⊃ref.RunDebug 0
+ ∆CloseGui ref2Gui
 
  r←∆OK
