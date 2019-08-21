@@ -22,6 +22,7 @@
  body,←⊂'→FailsIf INI.goo≢''Hello'''
  body,←⊂'r←∆OK'
  #.TEMP.⎕FX body
+ ##.Tester.TestFlag←1
  report←∊#.TEMP.RunDebug 0
  →GoToTidyUp 1≠+/'1 INI file instantiated'⍷report
  →GoToTidyUp 1≠+/'1 test case executed'⍷report

@@ -3,6 +3,7 @@
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
 
+ ##.Tester.TestFlag←1
  (rc log ref2Gui)←##.Tester.RunDebug TestCasesSimu
  ∆CloseGui ref2Gui
  →FailsIf 13 3 0≢∆GetTotals log

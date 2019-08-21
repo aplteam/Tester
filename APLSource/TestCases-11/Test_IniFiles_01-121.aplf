@@ -22,6 +22,7 @@
  body,←⊂'→FailsIf INI.goo≢''Hello'''
  body,←⊂'r←∆OK'
  #.TEMP.⎕FX body
+ ##.Tester.TestFlag←1
  (rc report ref2Gui)←#.TEMP.RunDebug 0
  report←∊report
  →GoToTidyUp 1≠+/'INI file(s) "Testcases.ini" found and instantiated as INI'⍷report

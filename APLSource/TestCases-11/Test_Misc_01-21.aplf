@@ -3,6 +3,7 @@
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed
 
+ ##.Tester.TestFlag←1
  (rc log)←##.Tester.Run TestCasesSimu
  →FailsIf 0=rc
  →PassesIf 3=+/'...not found'⍷∊log  ⍝ No INI file and no `Cleanup` function

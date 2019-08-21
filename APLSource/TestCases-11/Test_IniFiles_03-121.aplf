@@ -27,6 +27,7 @@
  body,←⊂'→FailsIf 3≠1↑⍴INI.List'
  body,←⊂'r←∆OK'
  #.TEMP.⎕FX body
+ ##.Tester.TestFlag←1
  report←∊#.TEMP.RunDebug 0
  →GoToTidyUp 1≠+/'INI file(s) "Testcases.ini,testcases_'⍷report
  →GoToTidyUp 1≠+/'1 test case executed'⍷report

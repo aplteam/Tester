@@ -4,26 +4,32 @@
  r←∆Failed
  stopFlag←debugFlag
 
+ ##.Tester.TestFlag←1
  (rc log ref2Gui)←RunThese 1
  →GoToTidyUp(,⊂'Test_01')≢{⍵/⍨0<≢¨⍵}ref2Gui.∆n.Grid.Values[;2]
  ∆CloseGui ref2Gui
 
+ ##.Tester.TestFlag←1
  (rc log ref2Gui)←RunThese 1 2
  →GoToTidyUp'Test_01' 'Test_02'≢{⍵/⍨0<≢¨⍵}ref2Gui.∆n.Grid.Values[;2]
  ∆CloseGui ref2Gui
 
+ ##.Tester.TestFlag←1
  (rc log ref2Gui)←RunThese'foo' 1
  →GoToTidyUp(,⊂'Test_foo_01')≢{⍵/⍨0<≢¨⍵}ref2Gui.∆n.Grid.Values[;2]
  ∆CloseGui ref2Gui
 
+ ##.Tester.TestFlag←1
  (rc log ref2Gui)←RunThese'foo' 1 2
  →GoToTidyUp'Test_foo_01' 'Test_foo_02'≢{⍵/⍨0<≢¨⍵}ref2Gui.∆n.Grid.Values[;2]
  ∆CloseGui ref2Gui
 
+ ##.Tester.TestFlag←1
  (rc log ref2Gui)←RunThese'' 1
  →GoToTidyUp(,⊂'Test_01')≢{⍵/⍨0<≢¨⍵}ref2Gui.∆n.Grid.Values[;2]
  ∆CloseGui ref2Gui
 
+ ##.Tester.TestFlag←1
  (rc log ref2Gui)←RunThese'' 1 2
  →GoToTidyUp'Test_01' 'Test_02'≢{⍵/⍨0<≢¨⍵}ref2Gui.∆n.Grid.Values[;2]
  ∆CloseGui ref2Gui

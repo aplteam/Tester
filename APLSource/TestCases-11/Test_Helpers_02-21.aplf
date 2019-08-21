@@ -4,8 +4,9 @@
  r←∆Failed
 
  list←G
- →PassesIf 1=≡list
+ →PassesIf 2=≡list
  →PassesIf 2=⍴⍴list
  →PassesIf 1<1⊃⍴list
+ →PassesIf 2=2⊃⍴list
 
  r←∆OK
