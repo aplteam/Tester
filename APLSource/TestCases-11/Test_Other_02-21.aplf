@@ -4,9 +4,8 @@
  r←∆Failed
  stopFlag←debugFlag
 
- (rc log ref2Gui)←'Grouping' 999999 ##.Tester.RunTheseIn TestCasesSimu
+ (rc log)←'Grouping' 999999 ##.Tester.RunTheseIn TestCasesSimu
  →PassesIf 0=rc
- ∆CloseGui ref2Gui
  →PassesIf 0 0 0≡∆GetTotals log
 
  r←∆OK

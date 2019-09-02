@@ -1,0 +1,10 @@
+ {r}←RunDebug debugFlag;ref
+ :Access Public Shared
+⍝ Run all test cases with DEBUG flag on.\\
+⍝ The result:
+⍝ If `debugFlag` is 1 then `RunDebug` stops just before executing any specific test case.\\
+⍝ 1. A return code. 0 means all test cases passed successfully.
+⍝ 2. A vector of text vector with the log. The log contains detailed information about what was carried out.
+⍝ 3. A reference pointing to the GUI created by `Tester`.
+ ref←{9=#.⎕NC ⍵:# ⋄ 9=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC ⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9=##.⎕NC ⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
+ r←debugFlag ref.Tester.RunDebug ⎕THIS

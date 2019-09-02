@@ -1,4 +1,4 @@
- r←Test_Misc_01(stopFlag batchFlag);log;stopFlag;⎕TRAP;rc;ref2Gui
+ r←Test_Run_01(stopFlag batchFlag);log;stopFlag;⎕TRAP;rc;ref2Gui
 ⍝ Exercise the "Run" method
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  r←∆Failed

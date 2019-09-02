@@ -1,0 +1,18 @@
+ {r}←RunGUI ids;ref;debugFlag
+ :Access Public Shared
+⍝ Run test cases with a GUI and the DEBUG flag on.\\
+⍝ `ids` can be one of:
+⍝ * An empty vector meaning all test cases shall be executed.
+⍝ * A scalar or vector of numbers identifying ungrouped test cases.
+⍝ * A text string that uniquily identifies a group.
+⍝ * A text string that ends with an asterisk (`*`) identifying one or more test groups.
+⍝ * A two-item vector with:
+⍝   * A text string identifying a group.
+⍝   * An integer vector identifying test cases within that group.
+⍝ The result:
+⍝ 1. A return code. 0 means all test cases passed successfully.
+⍝ 2. A vector of text vector with the log. The log contains detailed information about what was carried out.
+⍝ 3. A reference pointing to the GUI created by `Tester`.
+ ref←{9=#.⎕NC ⍵:# ⋄ 9=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC ⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9=##.⎕NC ⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
+ debugFlag←1   ⍝ This is required to be a semi-global by the `Tester` test cases!
+ r←debugFlag ref.Tester.RunGUI ⎕THIS ids
