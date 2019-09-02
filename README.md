@@ -53,7 +53,16 @@ After all test cases are processed the user might interact with the GUI. These a
 
 ![Context menu](gui_3.png "Context menu")
 
-Note that without catching the reference pointing to the GUI returned by any of the `Run*` functions the next memory compaction will get rid of the GUI. You can enforce a memory compaction by executing `⎕WA`.
+Notes:
+
+* All `Run*` functions excepts `RunGUI` return  a two-element vector:
+
+ 1. Is a return code (`rc`) with 0 for "okay".
+ 2. Is an empty vector in case `rc` is 0 and might contain additional information in case `rc` is not 0.
+ 
+* The `RunGUI` function returns a three-element vector. The third element is a reference pointing to the GUI (Form).
+
+  Without catching that reference the next memory compaction will get rid of the GUI. You can enforce a memory compaction by executing `⎕WA`.
 
 
 ## Details 
@@ -71,6 +80,8 @@ Note that test cases causing a crash are considered "broken". Test cases that do
 1. All test functions inside that namespace are expected to start their names with `Test_` followed by digits. 
 
    **Update**: since version 1.1 test functions can be grouped. For example, in order to group all functions testing a method `foo` the test functions can be named `Test_foo_001`, `Test_foo_002`, `Test_foo_003` and so on.
+   
+   It is recommended that in case you use groups you assign _all_ your test cases to a group.
 
 1. The number of digits you use for numbering is not restricted: `Test_foo_1` is as fine as is `Test_foo_0000001`. However, they should be consistent. 
 
@@ -138,7 +149,7 @@ Using these niladic functions rather than numeric values increases not only read
 
 ## Work flow
 
-No matter which of the `Run*` functions (`Run`, `RunBatchTests`, `RunDebug`, `RunBatchTestsInDebugMode`, `RunThese`) you are going to call, the workflow is always the same:
+No matter which of the `Run*` functions (`Run`, `RunGUI`, `RunBatchTests`, `RunDebug`, `RunBatchTestsInDebugMode`, `RunThese`) you are going to call, the workflow is always the same:
 
 
 ### INI files (optional)
@@ -196,6 +207,7 @@ One of the helpers is the method `ListHelpers` which returns a table with all na
 ```
       ListHelpers
  Run                       Run all test cases                                                           
+ RunGUI                    Run all or a subset of test cases with a GUI. (Windows only)
  RunDebug                  Run all test cases with DEBUG flag on                                        
  RunThese                  Run just the specified tests.                                                
  RunBatchTests             Run all batch tests                                                          
@@ -217,7 +229,7 @@ The helpers fall into four groups:
 
 ### Running test cases
 
-`Run`, `RunDebug`, `RunThese`, `RunBatchTest` and `RunBatchTestsInDebugMode` are running all or selected test cases with or without error trapping. They are shortcuts for calling certain methods in `Tester`.
+`Run`, `RunGUI`, `RunDebug`, `RunThese`, `RunBatchTest` and `RunBatchTestsInDebugMode` are running all or selected test cases with or without error trapping. They are shortcuts for calling certain methods in `Tester`.
 
 
 ### Flow control
