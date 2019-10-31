@@ -6,7 +6,7 @@
 
  report←''
 
- xml←⎕XML'flat'#.APLTreeUtils.ReadUtf8File'publish.config'
+ xml←⎕XML'flat'##.APLTreeUtils.ReadUtf8File'publish.config'
  source←2⊃xml[xml[;1]⍳⊂'container';]
 
  buff←source FindSpecialString'⍝CHECK⍝'

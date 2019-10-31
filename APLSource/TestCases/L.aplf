@@ -1,0 +1,50 @@
+ r←{numbers}L groupName;A;r2;⎕IO;⎕ML;b;max;longestName
+ :Access Public Shared
+⍝ Returns a matrix with two columns with the names of all test cases and the first comment line.\\
+⍝ If "groupName" is not empty then it will return only the members of that group (case dependent).
+⍝ May or may not start with `Test_`.\\
+⍝ A group may be defined only partly. For that to work a `*` at the end of `groupName` is required.\\
+⍝ If "numbers" is defined only those numbers are printed.
+ ⎕IO←1 ⋄ ⎕ML←1
+ :If 9=#._dependencies.⎕NC'APLTreeUtils'
+     A←#._dependencies.APLTreeUtils
+ :ElseIf 9=#.⎕NC'APLTreeUtils'
+     A←#.APLTreeUtils
+ :ElseIf 9=⎕NC'APLTreeUtils'
+     A←APLTreeUtils
+ :ElseIf 9=##.⎕NC'APLTreeUtils'
+     A←##.APLTreeUtils
+ :ElseIf 9∊⊃¨⎕RSI.⎕NC⊂'APLTreeUtils'
+     A←(⊃(9=⊃¨⎕RSI.⎕NC⊂'APLTreeUtils')/⎕RSI).APLTreeUtils
+ :ElseIf 9∊⊃¨⎕RSI.##.⎕NC⊂'APLTreeUtils'
+     A←(⊃(9=⊃¨⎕RSI.##.⎕NC⊂'APLTreeUtils')/⎕RSI.##).APLTreeUtils
+ :Else
+     'Missing: APLTreeUtils'⎕SIGNAL 6
+ :EndIf
+ numbers←{(0<⎕NC ⍵):⍎⍵ ⋄ ⍬}'numbers'
+ r2←↓'Test_'{⍵⌿⍨((⍴⍺)↑[2]⍵)∧.=⍺}'T'⎕NL 3
+ :If 0≠≢groupName
+     groupName←'Test_'{⍵↓⍨(≢⍺)×⍺≡(≢⍺)↑⍵}groupName
+     groupName←'Test_'{((⍺≢(⍴⍺)↑⍵)/⍺),⍵}groupName
+     groupName,←('*'≠¯1↑groupName)/'_'
+     groupName←(-'*'=¯1↑groupName)↓groupName
+     r2/⍨←groupName∘≡¨(⍴groupName)↑¨r2,¨' '
+ :EndIf
+ :If 0=≢r2
+     r←0 2⍴⊂''
+ :Else
+     r2←A.dtb r2
+     :If 0≠≢numbers
+         r2←(({⍎⍵↑⍨-(-1)+'_'⍳⍨⌽⍵}¨r2)∊numbers)⌿r2
+     :EndIf
+     r2←r2,[1.5]{{⍵↓⍨+/∧\' '=⍵}{⍵↓⍨⍵⍳'⍝'}{⎕ML←3 ⋄ ∊⍵}1↑1↓⎕NR ⍵}¨r2
+     r2←r2[⍋↑A.Lowercase r2[;1];]
+     longestName←⌈/≢¨r2[;1]
+     :If 0<≢r2
+     :AndIf ⎕PW<longestName+3+⌈/≢¨r2[;2]
+         max←⎕PW-3+longestName
+         b←max<≢¨r2[;2]
+         (b⌿r2[;2])←((max-4)↑¨b/r2[;2]),¨⊂'...'
+     :EndIf
+     r←r2
+ :EndIf

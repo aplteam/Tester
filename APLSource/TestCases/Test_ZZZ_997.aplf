@@ -5,7 +5,7 @@
  R←∆Failed
 
  report←''
- xml←⎕XML'flat'#.APLTreeUtils.ReadUtf8File'publish.config'
+ xml←⎕XML'flat'##.APLTreeUtils.ReadUtf8File'publish.config'
  →FailsIf~(⊂'container')∊xml[;1]
 
  R←∆OK

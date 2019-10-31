@@ -42,22 +42,16 @@
 
     :Include APLTreeUtils
 
-
     ∇ r←Version
       :Access Public shared
-      r←(Last⍕⎕THIS)'5.0.0.37' '2019-09-02'
+      r←(Last⍕⎕THIS)'5.1.0.39' '2019-10-31'
     ∇
 
     ∇ History
       :Access Public shared
-      ⍝ * 5.0.0
-      ⍝   * New function `RunGUI` introduced which is the only way now to invoke the (Windows-only) GUI.
-      ⍝   * The GUI got improved.
-      ⍝   * `RunDebug` and `RunThese` both are not running the GUI any more.
-      ⍝   * All `Run*` functions now return a two-element vector except `RunGUI` which returns a three-element vector.\\
-      ⍝     This is a potentially breaking change.
-      ⍝   * Bug fixes:
-      ⍝     `E` crashed under some circumstances.
+      ⍝ * 5.1.0
+      ⍝   The strategy when trying to establish the whereabouts of `APLTreeUtils` etc. in the workspace has changed.
+      ⍝   For the time being we first try to find it in `#.dependences`. This is in preperation for the coming packages.
       ⍝\\
       ⍝ For a full history (including older versions) see <https://github.com/aplteam/Tester/releases>
     ∇
@@ -887,7 +881,7 @@
 ⍝ 2. A vector of text vector with the log. The log contains detailed information about what was carried out.
 ⍝ 3. `⍬`: this helper does not create a GUI, so no referenc is returned.
           :Access Public Shared
-          ref←{9=#.⎕NC ⍵:# ⋄ 9=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC ⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9=##.⎕NC ⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
+          ref←{9.4=⎕NC⊂⍵:⎕THIS ⋄ 9.4=##.⎕NC⊂⍵:## ⋄ 9.4=#.⎕NC⊂⍵:# ⋄ ⎕←⎕RSI ⋄ 9.4=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC⊂⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9.4=##.⎕NC⊂⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
           r←ref.Tester.Run ⎕THIS
         ∇
 
@@ -899,7 +893,7 @@
 ⍝ 1. A return code. 0 means all test cases passed successfully.
 ⍝ 2. A vector of text vector with the log. The log contains detailed information about what was carried out.
 ⍝ 3. A reference pointing to the GUI created by `Tester`.
-          ref←{9=#.⎕NC ⍵:# ⋄ 9=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC ⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9=##.⎕NC ⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
+ ref←{9.4=⎕NC⊂⍵:⎕THIS ⋄ 9.4=##.⎕NC⊂⍵:## ⋄ 9.4=#.⎕NC⊂⍵:# ⋄ ⎕←⎕RSI ⋄ 9.4=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC⊂⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9.4=##.⎕NC⊂⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
           r←debugFlag ref.Tester.RunDebug ⎕THIS
         ∇
 
@@ -918,7 +912,7 @@
 ⍝ 1. A return code. 0 means all test cases passed successfully.
 ⍝ 2. A vector of text vector with the log. The log contains detailed information about what was carried out.
 ⍝ 3. A reference pointing to the GUI created by `Tester`.
-          ref←{9=#.⎕NC ⍵:# ⋄ 9=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC ⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9=##.⎕NC ⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
+ ref←{9.4=⎕NC⊂⍵:⎕THIS ⋄ 9.4=##.⎕NC⊂⍵:## ⋄ 9.4=#.⎕NC⊂⍵:# ⋄ ⎕←⎕RSI ⋄ 9.4=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC⊂⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9.4=##.⎕NC⊂⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
           debugFlag←1   ⍝ This is required to be a semi-global by the `Tester` test cases!
           r←debugFlag ref.Tester.RunGUI ⎕THIS ids
         ∇
@@ -930,7 +924,7 @@
 ⍝ 1. A return code. 0 means all test cases passed successfully.
 ⍝ 2. A vector of text vector with the log. The log contains detailed information about what was carried out.
 ⍝ 3. A reference pointing to the GUI created by `Tester`.
-          ref←{9=#.⎕NC ⍵:# ⋄ 9=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC ⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9=##.⎕NC ⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
+ ref←{9.4=⎕NC⊂⍵:⎕THIS ⋄ 9.4=##.⎕NC⊂⍵:## ⋄ 9.4=#.⎕NC⊂⍵:# ⋄ ⎕←⎕RSI ⋄ 9.4=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC⊂⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9.4=##.⎕NC⊂⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
           r←0 1 ref.Tester.RunBatchTests ⎕THIS
         ∇
 
@@ -941,7 +935,7 @@
 ⍝ 1. A return code. 0 means all test cases passed successfully.
 ⍝ 2. A vector of text vector with the log. The log contains detailed information about what was carried out.
 ⍝ 3. `⍬`: this helper does not create a GUI, so no referenc is returned.
-          ref←{9=#.⎕NC ⍵:# ⋄ 9=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC ⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9=##.⎕NC ⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
+ ref←{9.4=⎕NC⊂⍵:⎕THIS ⋄ 9.4=##.⎕NC⊂⍵:## ⋄ 9.4=#.⎕NC⊂⍵:# ⋄ ⎕←⎕RSI ⋄ 9.4=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC⊂⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9.4=##.⎕NC⊂⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
           r←ref.Tester.RunBatchTests ⎕THIS
         ∇
 
@@ -962,7 +956,7 @@
 ⍝ 1. A return code. 0 means all test cases passed successfully.
 ⍝ 2. A vector of text vector with the log. The log contains detailed information about what was carried out.
 ⍝ 3. A reference pointing to the GUI created by `Tester`.
-          ref←{9=#.⎕NC ⍵:# ⋄ 9=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC ⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9=##.⎕NC ⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
+ ref←{9.4=⎕NC⊂⍵:⎕THIS ⋄ 9.4=##.⎕NC⊂⍵:## ⋄ 9.4=#.⎕NC⊂⍵:# ⋄ ⎕←⎕RSI ⋄ 9.4=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC⊂⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9.4=##.⎕NC⊂⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
           r←ids ref.Tester.RunTheseIn ⎕THIS
         ∇
 
@@ -1001,7 +995,9 @@
 ⍝ A group may be defined only partly. For that to work a `*` at the end of `groupName` is required.\\
 ⍝ If "numbers" is defined only those numbers are printed.
           ⎕IO←1 ⋄ ⎕ML←1
-          :If 9=#.⎕NC'APLTreeUtils'
+          :If 9=#._dependencies.⎕NC'APLTreeUtils'
+              A←#._dependencies.APLTreeUtils
+          :ElseIf 9=#.⎕NC'APLTreeUtils'
               A←#.APLTreeUtils
           :ElseIf 9=⎕NC'APLTreeUtils'
               A←APLTreeUtils
@@ -1049,7 +1045,9 @@
           ⍝ The first column carries the group name.
           ⍝ The second column carries the number of test cases within that group.
           ⎕IO←1 ⋄ ⎕ML←1
-          :If 9=#.⎕NC'APLTreeUtils'
+          :If 9=#._dependencies.⎕NC'APLTreeUtils'
+              A←#._dependencies.APLTreeUtils
+          :ElseIf 9=#.⎕NC'APLTreeUtils'
               A←#.APLTreeUtils
           :ElseIf 9=⎕NC'APLTreeUtils'
               A←APLTreeUtils
@@ -1073,7 +1071,7 @@
 ⍝ Use this to search for stuff like "CHECK" or "TODO" enclosed between `⍝` (⍵).
 ⍝ Without left argument the search starts in #.
           startIn←{0<⎕NC ⍵:⍎⍵ ⋄ '#'}'startIn'
-          r←⍉1↓[1+⎕IO]⎕SE.UCMD'locate "',what,'" -return=count -objects=',⍕startIn
+          r←⍉1↓[1+⎕IO]⎕SE.UCMD'locate "',what,'" -return=count -objects=',⍕startIn  ⍝ The quotes are essential because of the ⍝ symbol!
           :If 0<1↑⍴r←(0<r[;⎕IO+1])⌿r                                    ⍝ Drop those with no hits
               r[;⎕IO]←{2>'#'+.=⍵:⍵ ⋄ {⎕IO←0 ⋄ ⌽⍵↑⍨1+⍵⍳'#'}⌽⍵}¨r[;⎕IO]
           :EndIf
@@ -1083,7 +1081,9 @@
 ⍝ Renames a test function and tells acre.
 ⍝ r ← ⍬
           ⎕IO←0 ⋄ ⎕ML←3
-          :If 9=#.⎕NC'APLTreeUtils'
+          :If 9=#._dependencies.⎕NC'APLTreeUtils'
+              A←#._dependencies.APLTreeUtils
+          :ElseIf 9=#.⎕NC'APLTreeUtils'
               A←#.APLTreeUtils
           :ElseIf 9=⎕NC'APLTreeUtils'
               A←APLTreeUtils
@@ -1221,7 +1221,9 @@
           :If 'Tester.Helpers'≢{⍵↑⍨-+/∧\2>+\⌽'.'=⍵}⍕⊃⎕RSI
               list/⍨←force∨0<⊃∘⎕NC¨list   ⍝ List only those that are around
           :EndIf
-          :If 9=#.⎕NC'APLTreeUtils'
+          :If 9=#._dependencies.⎕NC'APLTreeUtils'
+              A←#._dependencies.APLTreeUtils
+          :ElseIf 9=#.⎕NC'APLTreeUtils'
               A←#.APLTreeUtils
           :ElseIf 9=⎕NC'APLTreeUtils'
               A←APLTreeUtils
