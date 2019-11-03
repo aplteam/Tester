@@ -57,8 +57,8 @@ Notes:
 
 * All `Run*` functions excepts `RunGUI` return  a two-element vector:
 
- 1. Is a return code (`rc`) with 0 for "okay".
- 2. Is an empty vector in case `rc` is 0 and might contain additional information in case `rc` is not 0.
+  [1] is a return code (`rc`) with 0 for "okay".
+  [2] is an empty vector in case `rc` is 0 and might contain additional information in case `rc` is not 0.
  
 * The `RunGUI` function returns a three-element vector. The third element is a reference pointing to the GUI (Form).
 
@@ -100,11 +100,11 @@ There are three typical scenarios when you want to run test cases. All these sce
     
 * Run with error trapping and return a code together with the log (a vector of text vectors) reporting details. The code is `0` in case all test cases executed successfully and something else otherwise.
 
- This is perfect for, say, running all tests as part of an automated build process. See `Run` for details.
+  This is perfect for, say, running all tests as part of an automated build process. See `Run` for details.
    
 * Run without error trapping. Use this when you want to investigate why particular test cases crash or fail. See `RunDebug` for details.
 
- In case a problem is detected the test stops straight away, so you can investigate.
+  In case a problem is detected the test stops straight away, so you can investigate.
    
 * Run "batch mode". This means that test cases that require a human being in front of the monitor are **not** executed. See `unBatchTests` for details. 
 
@@ -172,13 +172,13 @@ In the next step the `Run*` method checks whether there is a function `Initial` 
 
 Note that the function must be either niladic or monadic, and it may or may not return a Boolean result. A 1 means that function did what it is supposed to do (=same as no result) while a 0 means it could not initialize.
 
-Of course you can simply execute `→` on a single line in your `Initial` function if any requirement is not met but that would also mean that your tests did not run at all. If you run your test cases automatically somehow than it should return a 0 indicating failure. Also, part of the initialization might have been carried out, and a function `Cleanup` might get rid of any left-overs.
+Of course you can simply execute `→` on a single line in your `Initial` function if any requirement is not met but that would also mean that if you run your test cases automatically somehow then this would not work; in such cases `Initial` should return a 0 indicating failure. Also, part of the initialization might have been carried out, and a function `Cleanup` (discussed in a second) might get rid of any left-overs.
 
-If the function is monadic a reference pointing the the parameter space is passed as the right argument. By checking this `Initial` can, for example, find out whether the cases are running in batch mode or not.
+If the function is monadic a reference pointing to the parameter space is passed as the right argument. By checking this `Initial` can, for example, find out whether the cases are running in batch mode or not.
 
 Use this function to create stuff that's needed by **all** test cases, or tell the user something important (only if the batch flag is false of course).
 
-It might  be a good idea to call a function tidying up in line 1, just in case a failing test case has left something behind; see [CleanUp](#cleanUp) for details.
+It might  be a good idea for _all_ test functions to tidy up in line 1, just in case a failing test case has left something behind; see [CleanUp](#cleanUp) for details.
 
 
 ### Finally: running the test cases
@@ -234,9 +234,9 @@ The helpers fall into four groups:
 
 ### Flow control
 
-`FailsIf`, `PassesIf` and `GoToTidyUp` control the program flow in test functions.
+`FailsIf`, `PassesIf` and `GoToTidyUp` control the program flow in test functions. The test template contains examples for how to use these functions.
 
-These functions return a result (Boolean) in case error trapping is active but make the calling `Test*`-function crash otherwise, allowing you to investigate a failing test case right on the spot.
+The functions return a result (Boolean) in case error trapping is active but make the calling `Test*`-function crash otherwise, allowing you to investigate a failing test case right on the spot.
 
 This is achieved by the functions `FailsIf` and `PassesIf` signalling an error that can be trapped with:
 
@@ -244,22 +244,22 @@ This is achieved by the functions `FailsIf` and `PassesIf` signalling an error t
       ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
 ```
 
-That's why the template for a test function (injected by `EstablishHelpersIn` ) carries such a statement **and** keeps `⎕TRAP` local.
+That's why the template for a test function (injected by `EstablishHelpersIn` ) carries such a statement _and_ keeps `⎕TRAP` local.
 
 Note that `GoToTidyUp` allows you to jump to a label `∆TidyUp` with a statement like:
 
 ```
- →GoToTidyUp expected≢result
+ →GoToTidyUp ~expected≡result
 ```
 
-This is useful in case a test case needs to do some cleaning up like deleting a temporary file created by the test case. Like `PassesIf` and `FailsIf` it crashes in debug mode and carries out the jump otherwise.
+This is useful in case a test case needs to do some cleaning up like deleting a temporary file created by the test case. In case the right argument is 1 (rather than 0) it causes a crash in debug mode and carries out the jump otherwise.
 
 
 ### Test function template
 
 In case the namespace has no test functions in it (yet) the `EstablishHelpersIn` function also creates a test function template named `Test_000`. 
 
-Note that for technical reasons this is **not** the case when the hosting namespace is scripted.
+Note that for technical reasons this is _not_ the case when the hosting namespace is scripted.
 
 
 ### Constants
@@ -268,12 +268,6 @@ Note that for technical reasons this is **not** the case when the hosting namesp
 
 
 ### Misc
-
-`E`
-
-: Edit all test functions (empty right argument) or the function(s) provided as right argument, be it a simple character vector (single name), a vector of character vectors or a matrix.
-
-: Note that `E` can process the result of `L`.
 
 `G`
 
@@ -285,7 +279,11 @@ Note that for technical reasons this is **not** the case when the hosting namesp
 
 : The right argument can be used to restrict output to a group, the optional left argument to restrict output to certain numbers.
 
-: `L`'s output can be processed by `E`.
+`E`
+
+: Edit all test functions (empty right argument) or the function(s) provided as right argument, be it a simple character vector (single name), a vector of character vectors or a matrix.
+
+: Note that `E` can process the result of `L`.
 
 ### Technical documentation
 
@@ -300,9 +298,24 @@ All Helpers are members of the `Tester.Helpers` sub class. That means you can ge
 
 ### Running test cases
 
+#### `RunDebug`
+
+Usually you will run this function with a 0 as right argument.
+
+However, sometimes you want to trace through a test case, and that is when specifying a 1 as right argument comes in handy: `RunDebug` would then stop just before the test cases are actually executed, after processing any INI file(s), executing any `Initial` function before executing the test cases, and any `Cleanup` function after having executed all test functions.
+
+#### RunGUI
+
+With `RunGUI` you can achieve the same as with `RunDebug`. It might be easier to start with `RunGUI` but you might switch to `RunDebug` later, if only because it is significantly faster.
+
+However, there are situations when `RunGUI` is indispensable: `Tester`s own test cases are almost impossible to follow without it, for example. It's also very useful in order to demonstrate the features of the `Tester` class.
+
+
 #### `RunThese`
 
-A particularly helpful method while developing/enhancing stuff is `RunThese`. The function allows you to run just selected test functions rather than a whole test suite but at the same time process any INI files and execute `Initial` and `Cleanup` if they exist.
+A particularly helpful method while developing/enhancing stuff is `RunThese`. The function allows you to run just selected test functions rather than a whole test suite.
+
+If you now think, well, why not just call any function `Test_001` myself then imagine a situation when all your test cases depend on an INI file or the execution of `Initial` ot both. That is exactly the advantage of `RunThese`: it carries out all these steps, and also executes the `Cleanup` function in case there is one.
 
 `RunThese` offers the following options:
 
@@ -318,9 +331,7 @@ A particularly helpful method while developing/enhancing stuff is `RunThese`. Th
       RunThese 0      ⍝ Run all test cases but stop just before the execution.
 ```
 
-#### `RunDebug`
-
-
+Sometimes you want to trace through test cases. This can be achieved be specifying the number as negative integers. `RunThese` would then stop just before the test cases are actually executed, after processing any INI file(s), executing any `Initial` function before executing the test cases, and any `Cleanup` function after having executed all test functions.
 
 ### Managing test cases 
 
@@ -382,21 +393,17 @@ Occasionally you might want to edit some or even all test case functions. That c
       
 ```
 
-### Flow control
-
-The test template contains examples for how to use the flow control functions.
-
 
 ## Best Practices
 
 * Try to keep your test cases simple and test just one thing at a time, for example just one method at a time. 
 
-* For more complex methods create a group with the method name as group name.
+* For more complex methods (for example, excepts different kinds of arguments) create a group with the method name as group name.
 
-* Create everything you need on the fly and tidy up afterwards. Or more precisely, tidy up (left overs!), prepare, test, tidy up again. In other words, make the test case "stand-alone".
+* Create everything you need on the fly and tidy up afterwards. Or more precisely, tidy up (leftovers!), prepare, test, tidy up again. In other words, make the test case "stand-alone".
 
-  The exception from this rule is when **all** test cases require the same pre-condition like, say, a database connection. In that case establish what's needed in a function [`Initial`](#Initialisation) and use a function [`CleanUp`](#cleanUp) to get rid of it.
+  The exception from this rule is when _all_ test cases require the same pre-condition like, say, a database connection. In that case establish what's needed in a function [`Initial`](#Initialisation) and use a function [`CleanUp`](#cleanUp) to get rid of it.
 
-* Avoid a test case relying on changes made by an earlier test case. It's a tempting thing to do but you will almost certainly regret this at one stage or another.
+* Avoid a test case relying on changes made by an earlier test case. It's a tempting thing to do but you will almost certainly regret this later.
 
 * Notice that the DRY principle (don't repeat yourself) can and should be ignored when it comes to test cases: any test case should read from top to bottom like an independent story that can be understood by itself.
