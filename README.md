@@ -398,7 +398,7 @@ Occasionally you might want to edit some or even all test case functions. That c
 
 * Try to keep your test cases simple and test just one thing at a time, for example just one method at a time. 
 
-* For more complex methods (for example, excepts different kinds of arguments) create a group with the method name as group name.
+* For more complex methods (for example, accepts different kinds of arguments) create a group with the method name as group name.
 
 * Create everything you need on the fly and tidy up afterwards. Or more precisely, tidy up (leftovers!), prepare, test, tidy up again. In other words, make the test case "stand-alone".
 
