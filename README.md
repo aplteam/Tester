@@ -1,5 +1,6 @@
 # Test framework for Unit tests in Dyalog APL
 
+**_Note: This class is now depricated. See https://github.com/aplteam/Tester2_**
 
 `Tester` is a member of the APLTree library. The library is a collection of classes etc. that aim to support the Dyalog APL programmer. Search GitHub for "apltree" and you will find solutions to many every-day problems Dyalog APL programmers might have to solve.
 
